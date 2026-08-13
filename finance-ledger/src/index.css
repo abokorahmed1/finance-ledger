@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+@layer components {
+  .island {
+    @apply bg-navy-800 border border-navy-600/40 rounded-2xl p-5;
+  }
+  .btn-primary {
+    @apply bg-cyan-400 text-navy-900 font-semibold px-4 py-2.5 rounded-xl
+           hover:bg-cyan-500 transition-colors text-sm;
+  }
+  .btn-ghost {
+    @apply border border-navy-600 text-gray-300 px-4 py-2.5 rounded-xl
+           hover:bg-navy-700 transition-colors text-sm;
+  }
+  .input {
+    @apply bg-navy-900 border border-navy-600 rounded-xl px-3.5 py-2.5
+           text-white text-sm placeholder-gray-500 focus:border-cyan-400
+           focus:outline-none transition-colors w-full;
+  }
+  .label {
+    @apply text-[11px] text-gray-400 uppercase tracking-wider font-semibold mb-1 block;
+  }
+  .tab { @apply px-4 py-2 text-sm rounded-lg transition-colors cursor-pointer; }
+  .tab-on { @apply bg-cyan-400 text-navy-900 font-semibold; }
+  .tab-off { @apply text-gray-400 hover:text-white; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0f1f38; }
+::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
