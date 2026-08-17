@@ -1,6 +1,9 @@
 # Seed data
 
-`inventory.csv` — current stock, one row per physical unit (86 rows).
+`inventory.csv` — current stock, 22 rows / 86 units.
+
+Meta glasses are singles (one row per pair, so each can be priced and sold
+individually). Everything else is one row per variant with the count in `qty`.
 
 Load it from **Import → Inventory** in the app, then drop the file in.
 Cost and list price are blank (imported as £0) — fill them in per item from
