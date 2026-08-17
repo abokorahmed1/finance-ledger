@@ -12,6 +12,30 @@ export function parseCSV(file) {
   })
 }
 
+const platforms = ['eBay', 'Vinted', 'Facebook', 'In-Person', 'Other']
+const statuses = ['InStock', 'Listed', 'Sold']
+
+// Map an inventory CSV row to our schema. One row = one unit unless qty says otherwise.
+export function mapInventoryRow(row) {
+  const pick = (...keys) => {
+    for (const k of keys) if (row[k] !== undefined && row[k] !== null && row[k] !== '') return row[k]
+    return ''
+  }
+  const platform = String(pick('platform', 'Platform') || 'eBay')
+  const status = String(pick('status', 'Status') || 'InStock')
+  return {
+    name: String(pick('name', 'Name', 'Item', 'item') || '').trim(),
+    purchasePrice: parseFloat(pick('purchasePrice', 'Cost', 'cost')) || 0,
+    listPrice: parseFloat(pick('listPrice', 'List', 'list', 'Price', 'price')) || 0,
+    qty: parseInt(pick('qty', 'Qty', 'Quantity')) || 1,
+    platform: platforms.includes(platform) ? platform : 'Other',
+    status: statuses.includes(status) ? status : 'InStock',
+    category: String(pick('category', 'Category') || '').trim(),
+    notes: String(pick('notes', 'Notes') || '').trim(),
+    createdAt: String(pick('createdAt', 'Date', 'date') || new Date().toISOString().slice(0, 10)).slice(0, 10)
+  }
+}
+
 // Map common UK bank CSV columns to our schema
 export function mapBankRow(row, bank = 'auto') {
   // Monzo format

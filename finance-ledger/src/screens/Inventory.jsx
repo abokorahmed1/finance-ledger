@@ -77,7 +77,7 @@ export default function Inventory() {
                 </span>
               </div>
               <p className="text-[11px] text-gray-500 mt-0.5">
-                {i.platform} · Qty {i.qty || 1} · Cost {gbp(i.purchasePrice)}
+                {i.category ? `${i.category} · ` : ''}{i.platform} · Qty {i.qty || 1} · Cost {gbp(i.purchasePrice)}
               </p>
             </div>
             <p className="text-sm font-semibold text-gray-300">{gbp(i.listPrice)}</p>

@@ -6,7 +6,7 @@ const statuses = ['InStock', 'Listed', 'Sold']
 
 const empty = {
   name: '', purchasePrice: '', listPrice: '', qty: 1,
-  platform: 'eBay', status: 'InStock', notes: '',
+  platform: 'eBay', status: 'InStock', category: '', notes: '',
   createdAt: new Date().toISOString().slice(0, 10)
 }
 
@@ -56,6 +56,10 @@ export default function InventoryForm({ onClose, editing }) {
             <select className="input" value={f.status} onChange={e => set('status', e.target.value)}>
               {statuses.map(s => <option key={s}>{s}</option>)}</select></div>
         </div>
+
+        <div><label className="label">Category</label>
+          <input className="input" value={f.category || ''} onChange={e => set('category', e.target.value)}
+                 placeholder="Meta Glasses"/></div>
 
         <div><label className="label">Notes</label>
           <input className="input" value={f.notes} onChange={e => set('notes', e.target.value)}/></div>
