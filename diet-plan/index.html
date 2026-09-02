@@ -176,8 +176,12 @@ button{font:inherit;cursor:pointer}
 .vault h3{font-family:var(--display);font-weight:400;margin:4px 0 0;
   font-size:clamp(34px,7vw,58px);line-height:1;letter-spacing:-.02em;color:var(--mute)}
 .vault p{margin:10px 0 0;font-size:17px;line-height:1.45;max-width:56ch;color:#a8a49c}
-.meter{height:14px;background:#1e2225;border:2px solid var(--mute);display:flex}
-.meter span{display:block;background:var(--mute);width:0}
+.weeks{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.weeks i{height:20px;background:#1e2225;border:2px solid var(--mute);display:flex;
+  align-items:center;justify-content:center;font-style:normal;font-size:10px;font-weight:800;
+  letter-spacing:.5px;color:var(--mute)}
+.weeks i.on{background:var(--red);border-color:var(--red);color:var(--paper)}
+.weeks i.now{border-color:var(--paper);color:var(--paper)}
 .meter-label{display:flex;justify-content:space-between;gap:12px;padding-top:8px;
   font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--mute);
   font-variant-numeric:tabular-nums}
@@ -188,10 +192,8 @@ button{font:inherit;cursor:pointer}
 .vault[data-state="open"] .vault-state,
 .vault[data-state="open"] h3{color:var(--red)}
 .vault[data-state="open"] p{color:var(--paper)}
-.vault[data-state="open"] .meter span{background:var(--red)}
-.vault[data-state="open"] .meter{border-color:var(--red)}
 @media (prefers-reduced-motion:no-preference){
-  .meter span{transition:width .35s ease}
+  .weeks i{transition:background .3s ease,border-color .3s ease}
   .lock svg .shackle{transition:transform .3s ease}
 }
 .slip{padding-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,4vw,48px);
@@ -287,8 +289,8 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
         </div>
       </div>
       <div class="vault-meter">
-        <div class="meter"><span id="meterFill" style="width:0%"></span></div>
-        <div class="meter-label"><span id="meterCount">0 of 7 days logged</span><span id="meterLeft">7 to go</span></div>
+        <div class="weeks" id="weeks" aria-label="Weeks complete"></div>
+        <div class="meter-label"><span id="meterCount">0 of 8 weeks complete</span><span id="meterLeft">Week 1 in progress</span></div>
       </div>
     </div>
     <div class="slip">
@@ -410,16 +412,17 @@ daysEl.addEventListener("change",ev=>{
 
 const vault=document.getElementById("vault");
 function updateVault(){
-  const n=loggedCount(), open=n===7;
-  vault.dataset.state=open?"open":"locked";
-  document.getElementById("meterFill").style.width=(n/7*100)+"%";
-  document.getElementById("meterCount").textContent=n+" of 7 days logged";
-  document.getElementById("meterLeft").textContent=open?"UNLOCKED":(7-n)+" to go";
-  document.getElementById("vaultState").textContent=open?"UNLOCKED":"LOCKED";
-  document.getElementById("vaultTitle").textContent=open?"Level 2 is yours":"Level 2";
-  document.getElementById("vaultCopy").textContent=open
-    ? "Seven days, all logged. Send the week over with COPY WEEK and your Level 2 targets get built from what you actually ate."
-    : "Log all seven days and Level 2 opens up: real targets, built from what you actually ate this week.";
+  const n=loggedCount(), weekDone=n===7, weeksDone=weekDone?1:0;
+  vault.dataset.state=weekDone?"open":"locked";
+  document.getElementById("weeks").innerHTML=Array.from({length:8},(_,i)=>
+    '<i class="'+(i<weeksDone?"on":(i===weeksDone?"now":""))+'">'+(i+1)+'</i>').join("");
+  document.getElementById("meterCount").textContent=weeksDone+" of 8 weeks complete";
+  document.getElementById("meterLeft").textContent=weekDone?"WEEK 1 DONE":"Week 1: "+n+" of 7 days logged";
+  document.getElementById("vaultState").textContent=weekDone?"UNLOCKED":"LOCKED";
+  document.getElementById("vaultTitle").textContent=weekDone?"Level 2 is yours":"Level 2";
+  document.getElementById("vaultCopy").textContent=weekDone
+    ? "Week 1 of 8 down. Send it over with COPY WEEK and your Level 2 targets get built from what you actually ate."
+    : "Eight weeks, one at a time. Log all seven days of week 1 and Level 2 opens up: real targets, built from what you actually ate.";
 }
 
 const nameEl=document.getElementById("clientName");
