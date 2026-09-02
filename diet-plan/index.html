@@ -90,6 +90,9 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
         </div>
         <p class="err" id="err" role="status"></p>
       </form>
+      <button class="btn btn--ghost" id="installBtn" type="button" style="justify-content:center">
+        &#8595; ADD TO HOME SCREEN
+      </button>
       <p class="note">First time in? Type your code and choose a PIN — that PIN is yours from then on.
         Your diary is tied to the code, so it follows you to any phone or laptop.</p>
     </div>
@@ -143,6 +146,7 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="./app.js"></script>
 <script>
+Level1.Install.attach(document.getElementById("installBtn"));
 const themeSel=document.getElementById("theme");
 themeSel.value=Level1.Theme.get();
 themeSel.addEventListener("change",()=>{

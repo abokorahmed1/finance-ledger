@@ -149,5 +149,78 @@
     return {ok:true,code};
   }
 
-  window.Level1={Theme,Session,Diary,signIn,slugify,hasCloud:!!sb,DAY_COUNT};
+
+  /* ---- add to home screen: a real prompt where the browser offers one,
+         plain instructions where it doesn't (iPhone never offers one) ---- */
+  let deferredPrompt=null;
+  window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; });
+
+  const standalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+  const platform=()=>{
+    const ua=navigator.userAgent;
+    if(/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1)) return "ios";
+    if(/Android/.test(ua)) return "android";
+    return "desktop";
+  };
+
+  const STEPS={
+    ios:{title:"On iPhone or iPad",
+      note:"It has to be Safari — Chrome on iPhone can't add to the home screen.",
+      steps:["Tap the <b>Share</b> button at the bottom of Safari — the square with an arrow going up.",
+             "Scroll the list and tap <b>Add to Home Screen</b>.",
+             "Tap <b>Add</b> in the top right. The icon lands on your home screen."]},
+    android:{title:"On Android",
+      note:"Chrome, Samsung Internet and Edge all do this.",
+      steps:["Tap the <b>⋮</b> menu at the top right.",
+             "Tap <b>Add to Home screen</b> (or <b>Install app</b>).",
+             "Tap <b>Install</b>. The icon lands with your other apps."]},
+    desktop:{title:"On a computer",
+      note:"Chrome or Edge. Handy for the coach dashboard.",
+      steps:["Look at the right-hand end of the address bar for the <b>install</b> icon — a screen with an arrow.",
+             "Click it, then click <b>Install</b>.",
+             "It opens in its own window from then on."]}
+  };
+
+  function installSheet(){
+    const order=[platform(),...["ios","android","desktop"].filter(p=>p!==platform())];
+    const back=document.createElement("div");
+    back.className="sheet";
+    back.innerHTML='<div class="sheet-box install-box">'+
+      '<div class="eyebrow">ADD TO HOME SCREEN</div>'+
+      '<h2 class="install-h">Keep it a tap away.</h2>'+
+      '<p class="note">Once it is on your home screen it opens like any other app — full screen, '+
+      'no address bar, and it still works with no signal. Nothing to download from a store.</p>'+
+      order.map((p,i)=>{
+        const s=STEPS[p];
+        return '<div class="install-plat'+(i===0?" first":"")+'">'+
+          '<h3>'+s.title+(i===0?' <span class="you">you\u2019re on this one</span>':'')+'</h3>'+
+          '<ol>'+s.steps.map(x=>"<li>"+x+"</li>").join("")+'</ol>'+
+          '<p class="note">'+s.note+'</p></div>';
+      }).join("")+
+      '<div class="install-foot"><button class="btn" type="button" data-close>GOT IT</button></div></div>';
+    back.addEventListener("click",e=>{ if(e.target===back||e.target.hasAttribute("data-close")) back.remove(); });
+    document.body.appendChild(back);
+    back.querySelector("[data-close]").focus();
+  }
+
+  const Install={
+    available(){ return !standalone(); },
+    async run(){
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        const {outcome}=await deferredPrompt.userChoice;
+        deferredPrompt=null;
+        if(outcome==="accepted") return;
+      }
+      installSheet();
+    },
+    /* wire a button: hides itself once the app is installed */
+    attach(el){
+      if(!el)return;
+      if(standalone()){ el.style.display="none"; return; }
+      el.addEventListener("click",e=>{ e.preventDefault(); Install.run(); });
+    }
+  };
+
+  window.Level1={Theme,Session,Diary,signIn,slugify,hasCloud:!!sb,DAY_COUNT,Install};
 })();

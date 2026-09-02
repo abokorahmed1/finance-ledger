@@ -89,6 +89,7 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     <span class="brand">ABOKAR AHMED · COACHING</span>
     <nav class="nav">
       <a href="plan.html">&#8592; BACK TO MY DIARY</a>
+      <button class="btn btn--ghost" id="installF" type="button">&#8595; HOME SCREEN</button>
       <button class="btn btn--ghost" id="print" type="button">PRINT</button>
     </nav>
   </div>
@@ -262,7 +263,9 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
   </footer>
 </div>
 
+<script src="./app.js"></script>
 <script>
+Level1.Install.attach(document.getElementById("installF"));
 const SHOP=["Chicken thighs","Beef mince 5%","Eggs (dozen)","Tinned tuna","Salmon fillets",
  "Greek yoghurt","Cottage cheese","Feta or halloumi","Lentils or chickpeas","Spinach",
  "Broccoli","Peppers","Onions and garlic","Cucumber and tomatoes","Mushrooms","Frozen mixed veg",

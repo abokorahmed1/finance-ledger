@@ -147,10 +147,6 @@
 .rules li:nth-child(3) .ico,.rules li:nth-child(3) .n{stroke:var(--green);color:var(--green)}
 .rules li:nth-child(4) .ico,.rules li:nth-child(4) .n{stroke:var(--blue);color:var(--blue)}
 .rules li:nth-child(5) .ico,.rules li:nth-child(5) .n{stroke:var(--plum);color:var(--plum)}
-.sheet{position:fixed;inset:0;z-index:5;background:rgba(0,0,0,.72);display:flex;
-  align-items:center;justify-content:center;padding:20px}
-.sheet-box{background:var(--paper);border:3px solid var(--ink);padding:18px;width:min(640px,100%);
-  display:flex;flex-direction:column;gap:10px}
 .sheet textarea{width:100%;height:min(50vh,340px);font:inherit;font-size:14px;background:var(--paper);
   color:var(--ink);border:2px solid var(--ink);padding:10px;resize:none}
 footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
@@ -164,7 +160,7 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     <span class="brand">LEVEL 1 · WEEK ONE</span>
     <nav class="nav">
       <a href="foods.html">FOODS</a>
-      <button class="btn btn--ghost" id="install" type="button" style="display:none">INSTALL APP</button>
+      <button class="btn btn--ghost" id="install" type="button">&#8595; HOME SCREEN</button>
       <a href="#" id="signout" class="plain">Sign out</a>
     </nav>
   </div>
@@ -499,11 +495,8 @@ diary.onChange(status=>{
   else { el.textContent="Saved on this device"; }
 });
 
-let deferred=null;
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("install").style.display="";});
-$("install").addEventListener("click",async()=>{
-  if(!deferred)return; deferred.prompt(); await deferred.userChoice; deferred=null; $("install").style.display="none";
-});
+Level1.Install.attach($("install"));
+
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 }
