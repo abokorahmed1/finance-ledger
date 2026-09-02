@@ -202,6 +202,22 @@ button{font:inherit;cursor:pointer}
 .slip p{font-size:17px;margin:0 0 8px;line-height:1.45;max-width:60ch}
 .slip .fine{font-size:15px;color:var(--mute);padding-top:12px}
 
+.sec-h{font-size:clamp(22px,3.6vw,30px);font-weight:800;letter-spacing:-.5px;margin:10px 0 0}
+.foods{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding-top:20px}
+.food{border:2px solid var(--ink);background:var(--paper);padding:14px 16px 16px}
+.food-note{font-size:12px;font-weight:600;color:var(--mute);padding-top:2px}
+.food ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
+.food li{font-size:15px;font-weight:700;padding-left:16px;position:relative}
+.food li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;
+  background:var(--red)}
+.swaps{border:3px solid var(--ink);padding:16px 18px 18px;margin-top:14px}
+.swap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:8px 24px;padding-top:12px}
+.swap{display:flex;align-items:baseline;gap:10px;font-size:15px;
+  border-bottom:1px solid var(--paper-2);padding-bottom:6px}
+.swap .from{color:var(--mute);text-decoration:line-through;flex:0 0 auto}
+.swap .arr{color:var(--red);font-weight:800}
+.swap .to{font-weight:800}
 footer{display:flex;flex-direction:column;gap:10px;padding:20px var(--pad) 0;font-size:15px}
 .foot-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
 footer .fine{margin:0;font-size:13px;color:var(--mute);max-width:70ch}
@@ -292,6 +308,45 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
       <div class="vault-meter">
         <div class="weeks" id="weeks" aria-label="Weeks complete"></div>
         <div class="meter-label"><span id="meterCount">0 of 8 weeks complete</span><span id="meterLeft">Week 1 in progress</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="sect-label">04 / RECOMMENDED FOODS</div>
+    <h2 class="sec-h">Shop from this list and the diary writes itself.</h2>
+    <div class="foods">
+        <div class="food">
+          <div class="eyebrow">PROTEIN</div>
+          <div class="food-note">Build every meal around one</div>
+          <ul><li>Chicken thigh or breast</li><li>Beef mince, 5% fat</li><li>Lamb chops</li><li>Eggs, any way</li><li>Tinned tuna, salmon, mackerel</li><li>Prawns</li><li>Greek yoghurt, 0% or 5%</li><li>Cottage cheese</li><li>Halloumi or feta</li><li>Lentils and chickpeas</li></ul>
+        </div>
+        <div class="food">
+          <div class="eyebrow">FIBRE + VEG</div>
+          <div class="food-note">Fill half the plate</div>
+          <ul><li>Spinach, kale, spring greens</li><li>Broccoli and cauliflower</li><li>Courgette, aubergine</li><li>Peppers, onions, garlic</li><li>Cucumber, tomato, salad</li><li>Mushrooms</li><li>Green beans</li><li>Avocado</li><li>Cabbage or salad slaw</li><li>Okra</li></ul>
+        </div>
+        <div class="food">
+          <div class="eyebrow">FRUIT</div>
+          <div class="food-note">Some days, not every day</div>
+          <ul><li>Berries</li><li>Apple or pear</li><li>Orange or satsuma</li><li>Kiwi</li><li>Banana, after a walk</li></ul>
+        </div>
+        <div class="food">
+          <div class="eyebrow">DRINKS</div>
+          <div class="food-note">Free all day</div>
+          <ul><li>Water, aim 2 litres</li><li>Black coffee</li><li>Tea, no sugar</li><li>Sparkling water</li><li>Diet drinks, sparingly</li></ul>
+        </div>
+    </div>
+    <div class="swaps">
+      <div class="eyebrow">STRAIGHT SWAPS</div>
+      <div class="swap-grid">
+          <div class="swap"><span class="from">White rice</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Cauliflower rice or half portion</span></div>
+          <div class="swap"><span class="from">Bread with dinner</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Extra veg or salad</span></div>
+          <div class="swap"><span class="from">Crisps</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Nuts, a small handful</span></div>
+          <div class="swap"><span class="from">Fizzy drink</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Sparkling water with lemon</span></div>
+          <div class="swap"><span class="from">Chocolate bar</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Greek yoghurt with berries</span></div>
+          <div class="swap"><span class="from">Late night cereal</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Nothing — kitchen's shut</span></div>
       </div>
     </div>
   </section>
