@@ -123,8 +123,6 @@ button{font:inherit;cursor:pointer}
   background:none;cursor:pointer;color:var(--ink)}
 .remind-foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
   font-size:13px;color:var(--mute)}
-.remind.on{border-color:var(--red)}
-.remind.on .remind-foot span{color:var(--ink);font-weight:700}
 .days{display:flex;flex-direction:column;gap:8px;padding-top:18px}
 .day{display:grid;grid-template-columns:48px 1fr auto;align-items:center;column-gap:14px;row-gap:2px;
   border:2px solid var(--ink);background:var(--paper);padding:12px 14px}
@@ -309,43 +307,18 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
           <div class="eyebrow">REMINDERS</div>
           <div class="remind-title">Get a nudge to write it down.</div>
         </div>
-        <button class="btn" id="remindBtn" type="button">TURN ON</button>
+        <button class="btn" id="icsBtn" type="button">ADD TO PHONE CALENDAR</button>
       </div>
       <div class="times" id="times"></div>
-      <div class="remind-foot">
-        <span id="remindState">Off. Reminders only fire while the app is open on this device.</span>
-        <button class="btn btn--ghost" id="icsBtn" type="button">ADD TO PHONE CALENDAR</button>
-      </div>
+      <div class="remind-foot"><span id="remindState">Sets a daily repeating alert on your phone at each time above. Works with the app shut.</span></div>
     </div>
     <div class="days" id="days"></div>
   </section>
 
-  <div class="rule" style="margin:clamp(28px,5vw,48px) var(--pad) 0"></div>
-
-  <section>
-    <div class="sect-label">03 / PROGRESS</div>
-    <div class="vault" id="vault" data-state="locked">
-      <div class="vault-main">
-        <div class="lock" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="1.5"/>
-            <path class="shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.6"/></svg>
-        </div>
-        <div>
-          <div class="vault-state" id="vaultState">LOCKED</div>
-          <h3 id="vaultTitle">Level 2</h3>
-          <p id="vaultCopy">Log all seven days and Level 2 opens up: real targets, built from what you actually ate this week.</p>
-        </div>
-      </div>
-      <div class="vault-meter">
-        <div class="weeks" id="weeks" aria-label="Weeks complete"></div>
-        <div class="meter-label"><span id="meterCount">0 of 8 weeks complete</span><span id="meterLeft">Week 1 in progress</span></div>
-      </div>
-    </div>
-  </section>
 
 
   <section>
-    <div class="sect-label">04 / RECOMMENDED FOODS</div>
+    <div class="sect-label">03 / RECOMMENDED FOODS</div>
     <h2 class="sec-h">Shop from this list and the diary writes itself.</h2>
     <div class="foods">
         <div class="food">
@@ -378,6 +351,29 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
           <div class="swap"><span class="from">Fizzy drink</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Sparkling water with lemon</span></div>
           <div class="swap"><span class="from">Chocolate bar</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Greek yoghurt with berries</span></div>
           <div class="swap"><span class="from">Late night cereal</span><span class="arr" aria-hidden="true">&rarr;</span><span class="to">Nothing — kitchen's shut</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule" style="margin:clamp(28px,5vw,48px) var(--pad) 0"></div>
+
+  <section>
+    <div class="sect-label">04 / PROGRESS</div>
+    <div class="vault" id="vault" data-state="locked">
+      <div class="vault-main">
+        <div class="lock" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="1.5"/>
+            <path class="shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.6"/></svg>
+        </div>
+        <div>
+          <div class="vault-state" id="vaultState">LOCKED</div>
+          <h3 id="vaultTitle">Level 2</h3>
+          <p id="vaultCopy">Log all seven days and Level 2 opens up: real targets, built from what you actually ate this week.</p>
+        </div>
+      </div>
+      <div class="vault-meter">
+        <div class="weeks" id="weeks" aria-label="Weeks complete"></div>
+        <div class="meter-label"><span id="meterCount">0 of 8 weeks complete</span><span id="meterLeft">Week 1 in progress</span></div>
       </div>
     </div>
   </section>
@@ -524,15 +520,13 @@ document.getElementById("export").addEventListener("click",async()=>{
   setTimeout(()=>{btn.textContent="COPY WEEK";},1600);
 });
 
-/* ---- reminders ---- */
+/* ---- reminders: a repeating calendar alert on the phone ---- */
 const RKEY=KEY+"-remind";
-let remind={on:false,times:["09:00","14:00","21:00"]};
+let remind={times:["09:00","14:00","21:00"]};
 try{const r=localStorage.getItem(RKEY); if(r) remind={...remind,...JSON.parse(r)};}catch(e){}
 const saveRemind=()=>{try{localStorage.setItem(RKEY,JSON.stringify(remind));}catch(e){}};
 
-const remindEl=document.querySelector(".remind");
 const timesEl=document.getElementById("times");
-const remindBtn=document.getElementById("remindBtn");
 const remindState=document.getElementById("remindState");
 
 function renderTimes(){
@@ -541,11 +535,6 @@ function renderTimes(){
     '<input type="time" value="'+t+'" data-t="'+i+'" aria-label="Reminder time '+(i+1)+'">'+
     '<button type="button" data-rm="'+i+'" aria-label="Remove reminder">&#10005;</button></div>').join("")+
     (remind.times.length<5?'<button class="time time--add" type="button" id="addTime">+ ADD TIME</button>':"");
-  remindEl.classList.toggle("on",remind.on);
-  remindBtn.textContent=remind.on?"TURN OFF":"TURN ON";
-  remindState.textContent=remind.on
-    ? "On. You'll get a nudge at each time while the app is open. Add it to your home screen so it can reach you."
-    : "Off. Reminders only fire while the app is open on this device.";
 }
 
 timesEl.addEventListener("change",e=>{
@@ -557,32 +546,6 @@ timesEl.addEventListener("click",e=>{
   const rm=e.target.closest("[data-rm]");
   if(rm){ remind.times.splice(+rm.dataset.rm,1); saveRemind(); renderTimes(); }
 });
-
-remindBtn.addEventListener("click",async()=>{
-  if(remind.on){ remind.on=false; saveRemind(); renderTimes(); return; }
-  let ok=false;
-  try{
-    if(!("Notification" in window)) throw 0;
-    ok=Notification.permission==="granted"||await Notification.requestPermission()==="granted";
-  }catch(e){}
-  if(!ok){
-    remindState.textContent="This browser blocked notifications. Use ADD TO PHONE CALENDAR instead — that reminds you even when the app is shut.";
-    return;
-  }
-  remind.on=true; saveRemind(); renderTimes();
-});
-
-let lastFired="";
-setInterval(()=>{
-  if(!remind.on)return;
-  const d=new Date();
-  const hm=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
-  const stamp=d.toDateString()+" "+hm;
-  if(remind.times.includes(hm)&&lastFired!==stamp){
-    lastFired=stamp;
-    try{ new Notification("Write it down",{body:"What have you eaten so far? Add it to today's diary.",tag:"level1-log"}); }catch(e){}
-  }
-},20000);
 
 document.getElementById("icsBtn").addEventListener("click",async()=>{
   const pad=n=>String(n).padStart(2,"0");
