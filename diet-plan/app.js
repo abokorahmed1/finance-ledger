@@ -124,31 +124,22 @@
     };
   }
 
-  /* ---- log in / register a client code, PIN kept alongside the diary ---- */
-  async function signIn(codeRaw,pin){
-    const code=slugify(codeRaw);
-    if(!code) return {ok:false,msg:"Enter your client code."};
-    if(!/^\d{4,8}$/.test(pin)) return {ok:false,msg:"PIN must be 4 to 8 numbers."};
+  /* ---- one field: a client types their name and gets their own plan ---- */
+  async function openPlan(nameRaw){
+    const name=String(nameRaw||"").trim().replace(/\s+/g," ").slice(0,60);
+    const code=slugify(name.replace(/\s+/g,"-"));
+    if(!code) return {ok:false,msg:"Type your name to open your plan."};
     if(sb){
-      const {data,error}=await sb.from("diaries").select("slug,name,pin").eq("slug",code).maybeSingle();
-      if(error) return {ok:false,msg:"Can't reach the server. Try again."};
-      if(data&&data.pin&&data.pin!==pin) return {ok:false,msg:"Wrong PIN for that code."};
+      const {data,error}=await sb.from("diaries").select("slug").eq("slug",code).maybeSingle();
+      if(error) return {ok:false,msg:"Can't reach the server — try again in a moment."};
       if(!data){
-        const {error:e2}=await sb.from("diaries").insert({slug:code,pin,name:"",week:1,data:{}});
-        if(e2) return {ok:false,msg:"Could not create that code."};
-      }else if(!data.pin){
-        await sb.from("diaries").update({pin}).eq("slug",code);
+        const {error:e2}=await sb.from("diaries").insert({slug:code,name,week:1,data:{}});
+        if(e2) return {ok:false,msg:"Could not start that plan. Try again."};
       }
-    }else{
-      const k="level1-pin-"+code;
-      let saved=null; try{ saved=localStorage.getItem(k); }catch(e){}
-      if(saved&&saved!==pin) return {ok:false,msg:"Wrong PIN for that code."};
-      try{ localStorage.setItem(k,pin); }catch(e){}
     }
-    Session.set({code,at:Date.now()});
-    return {ok:true,code};
+    Session.set({code,name,at:Date.now()});
+    return {ok:true,code,name};
   }
-
 
   /* ---- add to home screen: a real prompt where the browser offers one,
          plain instructions where it doesn't (iPhone never offers one) ---- */
@@ -222,5 +213,5 @@
     }
   };
 
-  window.Level1={Theme,Session,Diary,signIn,slugify,hasCloud:!!sb,DAY_COUNT,Install};
+  window.Level1={Theme,Session,Diary,openPlan,slugify,hasCloud:!!sb,DAY_COUNT,Install};
 })();

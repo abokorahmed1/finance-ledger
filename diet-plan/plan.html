@@ -161,7 +161,7 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     <nav class="nav">
       <a href="foods.html">FOODS</a>
       <button class="btn btn--ghost" id="install" type="button">&#8595; HOME SCREEN</button>
-      <a href="#" id="signout" class="plain">Sign out</a>
+      <a href="#" id="signout" class="plain">Not you?</a>
     </nav>
   </div>
   <div class="rule"></div>
@@ -352,7 +352,7 @@ function renderDay(){
   const c=diary.log[day].meals.length;
   $("stateLabel").textContent=c?"LOGGED":"NOTHING LOGGED YET";
   $("stateCount").textContent=c+(c===1?" entry":" entries");
-  $("whose").textContent=(diary.name||session.code).toUpperCase()+" · WEEK 1 OF 8";
+  $("whose").textContent=(session.name||diary.name||session.code).toUpperCase()+" · WEEK 1 OF 8";
   renderPills(); renderMeals(); renderSteps(); renderWeek(); renderVault();
   const u=new URL(location.href); u.searchParams.set("d",day+1);
   history.replaceState(null,"",u);
@@ -501,6 +501,7 @@ if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 }
 
+if(session.name && !diary.name) diary.name=session.name;
 renderTimes(); renderDay(); diary.connect();
 }
 </script>

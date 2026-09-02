@@ -32,6 +32,21 @@
 .card form{display:flex;flex-direction:column;gap:12px}
 .row2{display:grid;grid-template-columns:1fr 130px;gap:10px}
 @media(max-width:420px){.row2{grid-template-columns:1fr}}
+.themepick{position:relative}
+.iconbtn{width:36px;height:36px;border:2px solid var(--ink);background:transparent;
+  display:flex;align-items:center;justify-content:center;padding:0;color:var(--ink)}
+.iconbtn:hover,.iconbtn[aria-expanded="true"]{background:var(--ink);color:var(--paper)}
+.iconbtn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2}
+.iconbtn svg .fill{fill:currentColor;stroke:none}
+.thememenu{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--paper);
+  border:3px solid var(--ink);min-width:250px;display:flex;flex-direction:column;
+  max-height:70vh;overflow:auto}
+.thememenu-h{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--mute);
+  padding:9px 12px 5px}
+.thememenu button{text-align:left;background:transparent;border:0;padding:9px 12px;
+  font-size:14px;font-weight:700;color:var(--ink)}
+.thememenu button:hover{background:var(--paper-2)}
+.thememenu button[aria-current="true"]{background:var(--ink);color:var(--paper)}
 .strip{display:flex;flex-wrap:wrap;gap:14px;padding:0 var(--pad);margin-top:clamp(28px,5vw,52px)}
 .pt{flex:1 1 240px;border-top:8px solid var(--c,var(--accent));padding-top:12px}
 .pt b{display:block;font-size:18px;font-weight:800;padding-top:3px}
@@ -51,6 +66,30 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     <nav class="nav">
       <a href="foods.html">RECOMMENDED FOODS</a>
       <a href="coach.html" class="plain">Coach</a>
+      <div class="themepick">
+        <button class="iconbtn" id="themeBtn" type="button" aria-haspopup="true"
+                aria-expanded="false" aria-label="Change the look of the plan pages" title="Theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a9 9 0 0 0 0 18z" class="fill"/>
+          </svg>
+        </button>
+        <div class="thememenu" id="themeMenu" hidden>
+          <div class="thememenu-h">PLAN PAGES</div>
+          <button type="button" data-t="">Auto &mdash; light by day, dark at night</button>
+          <button type="button" data-t="market">Greengrocer</button>
+          <button type="button" data-t="chalk">Locker Room</button>
+          <button type="button" data-t="press">Newsprint Press</button>
+          <button type="button" data-t="mono">Gym Chalk</button>
+          <button type="button" data-t="carbon">Night Shift</button>
+          <button type="button" data-t="clinic">Clinic</button>
+          <button type="button" data-t="sand">Sunday Market</button>
+          <button type="button" data-t="steel">Iron Works</button>
+          <button type="button" data-t="track">Track Club</button>
+          <button type="button" data-t="late">Late Kitchen</button>
+          <button type="button" data-t="field">Field Notes</button>
+        </div>
+      </div>
     </nav>
   </div>
   <div class="rule"></div>
@@ -59,42 +98,25 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     <div>
       <h1 class="display name">ABOKAR<br><span class="last">AHMED.</span></h1>
       <p class="tagline">Eight weeks. One level at a time. Food first, consistency always.</p>
-      <p class="blurb">No macros to memorise and no app to buy. You write down what you eat,
-        you walk a bit more than yesterday, and we build your real targets out of what actually
-        happened — not what a calculator guessed.</p>
-      <div class="levels">
-        <span class="lvl on">LEVEL 1 · WEEK 1</span>
-        <span class="lvl">LEVELS 2–8 UNLOCK AS YOU GO</span>
-      </div>
     </div>
 
     <div class="card">
-      <div class="eyebrow">CLIENT SIGN IN</div>
-      <h2 class="display">Open your plan.</h2>
+      <div class="eyebrow">START HERE</div>
+      <h2 class="display">Your plan, in your name.</h2>
       <form id="loginForm" autocomplete="off">
         <div class="field">
-          <label for="code">CLIENT CODE</label>
-          <input id="code" name="code" type="text" inputmode="text" autocapitalize="none"
-                 spellcheck="false" placeholder="the code Abokar gave you" required>
+          <label for="who">YOUR NAME</label>
+          <input id="who" name="who" type="text" autocomplete="name" spellcheck="false"
+                 placeholder="e.g. Kazi Mahbub" required>
         </div>
-        <div class="row2">
-          <div class="field">
-            <label for="pin">PIN</label>
-            <input id="pin" name="pin" type="password" inputmode="numeric" pattern="[0-9]*"
-                   placeholder="4 digits" required>
-          </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn btn--big" type="submit" style="justify-content:center">GO</button>
-          </div>
-        </div>
+        <button class="btn btn--big" type="submit" style="justify-content:center">OPEN MY PLAN</button>
         <p class="err" id="err" role="status"></p>
       </form>
       <button class="btn btn--ghost" id="installBtn" type="button" style="justify-content:center">
         &#8595; ADD TO HOME SCREEN
       </button>
-      <p class="note">First time in? Type your code and choose a PIN — that PIN is yours from then on.
-        Your diary is tied to the code, so it follows you to any phone or laptop.</p>
+      <p class="note">Type the same name each time and you come back to your own diary &mdash;
+        every meal and step already there, on any phone.</p>
     </div>
   </div>
 
@@ -116,25 +138,6 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
     </div>
   </div>
 
-  <div class="themebar">
-    <span class="eyebrow" style="color:var(--mute)">PLAN THEME</span>
-    <select id="theme" aria-label="Theme for the plan pages">
-      <option value="">Auto &mdash; Greengrocer by day, Locker Room at night</option>
-      <option value="market">Greengrocer (light)</option>
-      <option value="chalk">Locker Room (dark, rounded)</option>
-      <option value="press">Newsprint Press</option>
-      <option value="mono">Gym Chalk</option>
-      <option value="carbon">Night Shift</option>
-      <option value="clinic">Clinic</option>
-      <option value="sand">Sunday Market</option>
-      <option value="steel">Iron Works</option>
-      <option value="track">Track Club</option>
-      <option value="late">Late Kitchen</option>
-      <option value="field">Field Notes</option>
-    </select>
-    <span class="note">Sets the look of the diary and food pages. This page keeps its own.</span>
-  </div>
-
   <div class="rule--accent" style="margin:clamp(26px,5vw,44px) var(--pad) 0"></div>
   <footer>
     <span>ABOKAR AHMED · COACHING</span>
@@ -147,25 +150,38 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
 <script src="./app.js"></script>
 <script>
 Level1.Install.attach(document.getElementById("installBtn"));
-const themeSel=document.getElementById("theme");
-themeSel.value=Level1.Theme.get();
-themeSel.addEventListener("change",()=>{
-  try{ themeSel.value?localStorage.setItem("level1-theme",themeSel.value)
-                     :localStorage.removeItem("level1-theme"); }catch(e){}
+const themeBtn=document.getElementById("themeBtn"), themeMenu=document.getElementById("themeMenu");
+function markTheme(){
+  let cur=""; try{ cur=localStorage.getItem("level1-theme")||""; }catch(e){}
+  themeMenu.querySelectorAll("[data-t]").forEach(b=>
+    b.setAttribute("aria-current",String(b.dataset.t===cur)));
+}
+function openMenu(open){
+  themeMenu.hidden=!open;
+  themeBtn.setAttribute("aria-expanded",String(open));
+}
+themeBtn.addEventListener("click",e=>{ e.stopPropagation(); markTheme(); openMenu(themeMenu.hidden); });
+themeMenu.addEventListener("click",e=>{
+  const b=e.target.closest("[data-t]"); if(!b)return;
+  try{ b.dataset.t?localStorage.setItem("level1-theme",b.dataset.t)
+                  :localStorage.removeItem("level1-theme"); }catch(err){}
+  markTheme(); openMenu(false);
 });
+document.addEventListener("click",()=>openMenu(false));
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") openMenu(false); });
+markTheme();
 
 const form=document.getElementById("loginForm"), err=document.getElementById("err");
 const existing=Level1.Session.get();
-if(existing&&existing.code) document.getElementById("code").value=existing.code;
+if(existing&&existing.name) document.getElementById("who").value=existing.name;
 
 form.addEventListener("submit",async e=>{
   e.preventDefault();
   err.textContent="";
   const btn=form.querySelector("button[type=submit]");
-  btn.disabled=true; btn.textContent="…";
-  const res=await Level1.signIn(document.getElementById("code").value,
-                                document.getElementById("pin").value);
-  btn.disabled=false; btn.textContent="GO";
+  btn.disabled=true; btn.textContent="OPENING…";
+  const res=await Level1.openPlan(document.getElementById("who").value);
+  btn.disabled=false; btn.textContent="OPEN MY PLAN";
   if(res.ok) location.href="plan.html";
   else err.textContent=res.msg;
 });
