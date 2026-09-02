@@ -333,7 +333,7 @@ function stepsBlock(i){
       :'<span class="chip '+(n>=t?"beat":"short")+'">'+(n>=t?"BEAT IT":"SHORT BY "+nf.format(t-n))+'</span>');
   return head+
     '<input class="steps-in" type="number" inputmode="numeric" min="0" step="1" data-i="'+i+'" '+
-    'aria-label="Steps walked on day '+(i+1)+'" placeholder="steps walked" value="'+(log[i].steps||"")+'">'+chip;
+    'aria-label="Steps walked on day '+(i+1)+'" placeholder="steps" value="'+(log[i].steps||"")+'">'+chip;
 }
 
 function mealList(i){
