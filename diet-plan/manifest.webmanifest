@@ -1,0 +1,14 @@
+{
+  "name": "Level 1 Week One",
+  "short_name": "Level 1",
+  "description": "Seven clean days. Tick diet and steps before bed.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f2ea",
+  "theme_color": "#0a0d0f",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Level 1 Week One</title>
+<meta name="description" content="Seven clean days. Tick diet and steps before bed.">
+<meta name="theme-color" content="#0a0d0f">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&display=swap">
+<style>
+:root{
+  --ink:#0a0d0f;
+  --paper:#f5f2ea;
+  --paper-2:#e8e3d8;
+  --red:#f23520;
+  --mute:#55524d;
+  --display:"Anton","Arial Narrow",Impact,sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --pad:clamp(18px,5vw,64px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+.wrap{max-width:1240px;margin:0 auto}
+.rule{height:3px;background:var(--ink)}
+.rule--red{height:10px;background:var(--red)}
+.bar{height:12px;background:var(--ink)}
+header.top{display:flex;justify-content:space-between;align-items:center;
+  padding:20px var(--pad) 16px;font-size:14px;font-weight:800;letter-spacing:2px}
+.pill{border:2px solid var(--ink);padding:6px 10px;font-size:12px;letter-spacing:1.5px}
+
+.hero{padding:clamp(28px,6vw,54px) var(--pad) 0}
+h1{font-family:var(--display);font-weight:400;margin:0;
+  font-size:clamp(56px,15.5vw,148px);line-height:.86;letter-spacing:-.03em}
+h1 .dot{color:var(--red)}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;
+  padding-top:clamp(22px,4vw,34px)}
+.fact{border:3px solid var(--ink);padding:20px 22px;display:flex;align-items:center;gap:18px}
+.glyph{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-weight:800;line-height:1;font-size:26px}
+.glyph--box{border:4px solid var(--ink);color:var(--red);font-size:30px}
+.glyph--dark{border-radius:50%;background:var(--ink);color:var(--paper);font-size:19px;letter-spacing:.5px}
+.glyph--red{border-radius:50%;background:var(--red);color:var(--paper);font-size:32px}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:2px;color:var(--red)}
+.fact b{display:block;font-size:20px;font-weight:800;padding-top:2px}
+
+section{padding:clamp(30px,5vw,52px) var(--pad) 0}
+.sect-label{font-size:14px;font-weight:800;letter-spacing:2px;color:var(--red)}
+
+.rules{background:var(--ink);color:var(--paper);padding:clamp(24px,4vw,38px) clamp(20px,4vw,44px);
+  margin-top:22px;display:flex;flex-direction:column;gap:16px}
+.rules li{display:flex;align-items:baseline;gap:16px;font-size:clamp(20px,4vw,30px);font-weight:800}
+.rules ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.rules .n{font-family:var(--display);font-weight:400;font-size:24px;color:var(--red);min-width:38px;flex:none}
+.rules .shift{display:block;font-size:15px;font-weight:600;color:var(--red);letter-spacing:1px;padding-top:4px}
+
+.week-head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end}
+.week-head h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.5px;margin:10px 0 0}
+.score{display:flex;align-items:center;gap:14px}
+.count{font-size:17px;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--red);color:var(--paper);border:0;font-size:13px;font-weight:800;
+  letter-spacing:2px;padding:11px 16px}
+.btn:hover{background:var(--ink)}
+.btn:focus-visible,.day:focus-within{outline:3px solid var(--red);outline-offset:3px}
+.btn--ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:var(--paper)}
+
+.days{display:flex;flex-direction:column;gap:10px;padding-top:22px}
+.day{display:grid;grid-template-columns:70px 1fr auto;align-items:start;gap:16px;
+  border:2px solid var(--ink);background:var(--paper);padding:18px 18px}
+.day.done{background:var(--paper-2)}
+.day .num{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;letter-spacing:-1px}
+.day.done .num{color:var(--red)}
+.day .meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;
+  font-size:13px;font-weight:800;letter-spacing:1.5px}
+.day .curfew{color:var(--ink)}
+.day .name{color:var(--red)}
+.lines{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+.lines li{font-size:clamp(16px,3.4vw,21px);font-weight:800}
+.ticks{display:flex;flex-direction:column;gap:10px}
+.tick{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;color:inherit}
+.box{width:32px;height:32px;flex:none;border:3px solid var(--ink);display:flex;
+  align-items:center;justify-content:center;color:var(--paper);font-size:19px;font-weight:800;line-height:1}
+.tick[aria-pressed="true"] .box{background:var(--red)}
+.tick span:last-child{font-size:15px;font-weight:800;letter-spacing:1px}
+
+.slip{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,4vw,48px);
+  padding-top:22px}
+.slip .big{font-size:clamp(20px,3.6vw,27px);font-weight:800;margin:0 0 10px}
+.slip p{font-size:17px;margin:0 0 8px;line-height:1.45;max-width:60ch}
+.slip .fine{font-size:15px;color:var(--mute);padding-top:12px}
+
+footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+  padding:20px var(--pad) 0;font-size:15px}
+footer b{font-size:17px;font-weight:800;letter-spacing:2px}
+#install{display:none}
+@media (prefers-reduced-motion:no-preference){.box{transition:background .12s ease}}
+@media (max-width:520px){
+  .day{grid-template-columns:52px 1fr;row-gap:12px}
+  .day .num{font-size:32px}
+  .ticks{grid-column:1/-1;flex-direction:row;gap:22px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar"></div>
+  <header class="top">
+    <span>LEVEL 1 &middot; WEEK ONE</span>
+    <button class="pill btn--ghost" id="install" type="button">INSTALL APP</button>
+  </header>
+  <div class="rule"></div>
+
+  <div class="hero">
+    <h1>LEVEL 1<br>WEEK ONE<span class="dot">.</span></h1>
+    <div class="rule--red" style="margin-top:clamp(18px,4vw,34px)"></div>
+    <div class="facts">
+      <div class="fact"><div class="glyph glyph--box">&#10005;</div>
+        <div><div class="eyebrow">TICK IT</div><b>Two boxes a day</b></div></div>
+      <div class="fact"><div class="glyph glyph--dark">10K</div>
+        <div><div class="eyebrow">STEPS</div><b>Every single day</b></div></div>
+      <div class="fact"><div class="glyph glyph--red">&#8634;</div>
+        <div><div class="eyebrow">MISS ONE</div><b>Back to Day 1</b></div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sect-label">01 / THE RULES</div>
+    <div class="rules">
+      <ol>
+        <li><span class="n">01</span><span>No sugar, no carbs</span></li>
+        <li><span class="n">02</span><span>Prioritise protein and fibre</span></li>
+        <li><span class="n">03</span><span>Eat fruit only some days</span></li>
+        <li><span class="n">04</span><span>No food after 9
+          <span class="shift">8PM FROM DAY 3 &nbsp;&rarr;&nbsp; 7PM FROM DAY 5</span></span></li>
+        <li><span class="n">05</span><span>10,000 steps every day</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="week-head">
+      <div>
+        <div class="sect-label">02 / THE WEEK</div>
+        <h2>Tick both boxes before bed.</h2>
+      </div>
+      <div class="score">
+        <div class="count"><span id="done">0</span> / 7 DAYS CLEAN</div>
+        <button class="btn" id="reset" type="button">START AGAIN</button>
+      </div>
+    </div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <div class="rule" style="margin:clamp(28px,5vw,48px) var(--pad) 0"></div>
+
+  <section>
+    <div class="sect-label">03 / IF YOU SLIP</div>
+    <div class="slip">
+      <div>
+        <p class="big">A missed box resets the week.</p>
+        <p class="big">No half days, no catching up.</p>
+        <p class="big">Seven clean days unlocks Level 2.</p>
+      </div>
+      <div>
+        <p>Steps count from waking to sleeping &mdash; phone or watch, whichever you actually carry.</p>
+        <p>Eating out is fine if the plate still looks like Rule One.</p>
+        <p class="fine">This is a starter framework, not medical advice. Adjust portions for hunger, training, health needs and professional guidance.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule--red" style="height:6px;margin:clamp(28px,5vw,44px) var(--pad) 0"></div>
+  <footer><b>LEVEL 1</b><span>FOOD FIRST. CONSISTENCY ALWAYS.</span></footer>
+</div>
+
+<script>
+const DAYS=[
+ {name:"DAY 1",curfew:"9PM",lines:["10,000 steps","2 meals protein heavy with fruit or veg","1 meal whatever you like"]},
+ {name:"DAY 2",curfew:"9PM",lines:["10,000 steps","2 meals protein"]},
+ {name:"DAY 3",curfew:"8PM",lines:["10,000 steps","6 hour eating window"]},
+ {name:"DAY 4",curfew:"8PM",lines:["10,000 steps","TBC"]},
+ {name:"DAY 5",curfew:"7PM",lines:["10,000 steps","TBC"]},
+ {name:"DAY 6",curfew:"7PM",lines:["10,000 steps","TBC"]},
+ {name:"DAY 7",curfew:"7PM",lines:["10,000 steps","TBC"]}
+];
+const KEY="level1-week1";
+const blank=()=>DAYS.map(()=>({diet:false,steps:false}));
+let checks=blank();
+try{const raw=localStorage.getItem(KEY);if(raw){const p=JSON.parse(raw);if(Array.isArray(p)&&p.length===7)checks=p;}}catch(e){}
+
+const daysEl=document.getElementById("days");
+const doneEl=document.getElementById("done");
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(checks));}catch(e){}}
+
+function render(){
+  daysEl.replaceChildren();
+  DAYS.forEach((d,i)=>{
+    const c=checks[i], both=c.diet&&c.steps;
+    const row=document.createElement("div");
+    row.className="day"+(both?" done":"");
+    row.innerHTML=
+      '<div class="num">'+String(i+1).padStart(2,"0")+'</div>'+
+      '<div><div class="meta"><span class="name">'+d.name+'</span>'+
+      '<span class="curfew">KITCHEN CLOSES '+d.curfew+'</span></div>'+
+      '<ul class="lines">'+d.lines.map(l=>"<li>"+l+"</li>").join("")+'</ul></div>'+
+      '<div class="ticks">'+["diet","steps"].map(f=>
+        '<button class="tick" type="button" data-i="'+i+'" data-f="'+f+'" aria-pressed="'+c[f]+'">'+
+        '<span class="box" aria-hidden="true">'+(c[f]?"&#10005;":"")+'</span>'+
+        '<span>'+f.toUpperCase()+'</span></button>').join("")+'</div>';
+    daysEl.appendChild(row);
+  });
+  doneEl.textContent=checks.filter(c=>c.diet&&c.steps).length;
+}
+
+daysEl.addEventListener("click",e=>{
+  const b=e.target.closest(".tick"); if(!b)return;
+  const i=+b.dataset.i, f=b.dataset.f;
+  checks[i][f]=!checks[i][f]; save(); render();
+});
+document.getElementById("reset").addEventListener("click",()=>{
+  if(confirm("Clear all seven days and start again?")){checks=blank();save();render();}
+});
+
+let deferred=null;
+const installBtn=document.getElementById("install");
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;installBtn.style.display="block";});
+installBtn.addEventListener("click",async()=>{
+  if(!deferred)return; deferred.prompt(); await deferred.userChoice; deferred=null; installBtn.style.display="none";
+});
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+render();
+</script>
+</body>
+</html>
