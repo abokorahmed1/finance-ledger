@@ -118,6 +118,14 @@ button{font:inherit;cursor:pointer}
 .btn--ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
 .btn--ghost:hover{background:var(--ink);color:var(--paper)}
 
+.sheet{position:fixed;inset:0;z-index:5;background:rgba(10,13,15,.72);display:flex;
+  align-items:center;justify-content:center;padding:20px}
+.sheet-box{background:var(--paper);border:3px solid var(--ink);padding:18px;width:min(640px,100%);
+  display:flex;flex-direction:column;gap:10px}
+.sheet-note{margin:0;font-size:14px;color:var(--mute)}
+.sheet textarea{width:100%;height:min(50vh,340px);font:inherit;font-size:14px;
+  background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:10px;resize:none}
+.sheet-btns{display:flex;justify-content:flex-end}
 .remind{border:3px solid var(--ink);padding:14px 16px;margin-top:18px;
   display:flex;flex-direction:column;gap:12px}
 .remind-head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
@@ -542,10 +550,27 @@ document.getElementById("export").addEventListener("click",async()=>{
       (t===null?"":"  (target "+nf.format(t)+")");
   }).join("\n\n");
   const btn=document.getElementById("export");
-  try{ await navigator.clipboard.writeText(text); btn.textContent="COPIED"; }
-  catch(err){ window.prompt("Copy your week:",text); return; }
-  setTimeout(()=>{btn.textContent="COPY WEEK";},1600);
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent="COPIED"; setTimeout(()=>{btn.textContent="COPY WEEK";},1600); return;
+  }catch(err){}
+  showText(text);
 });
+
+/* clipboard is blocked in some embedded viewers — show the text to copy by hand */
+function showText(text){
+  const back=document.createElement("div");
+  back.className="sheet";
+  back.innerHTML='<div class="sheet-box"><div class="eyebrow">YOUR WEEK</div>'+
+    '<p class="sheet-note">Select it all and copy — your browser blocked the copy button here.</p>'+
+    '<textarea readonly></textarea>'+
+    '<div class="sheet-btns"><button class="btn" type="button" data-close>CLOSE</button></div></div>';
+  const ta=back.querySelector("textarea");
+  ta.value=text;
+  back.addEventListener("click",e=>{ if(e.target===back||e.target.hasAttribute("data-close")) back.remove(); });
+  document.body.appendChild(back);
+  ta.focus(); ta.select();
+}
 
 /* ---- reminders: a repeating calendar alert on the phone ---- */
 const RKEY=KEY+"-remind";
