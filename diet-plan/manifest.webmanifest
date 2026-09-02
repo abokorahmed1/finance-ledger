@@ -1,7 +1,7 @@
 {
   "name": "Level 1 Week One",
   "short_name": "Level 1",
-  "description": "Seven clean days. Tick diet and steps before bed.",
+  "description": "Write down what you ate, every day for seven days.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
