@@ -33,6 +33,23 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background-color:var(-
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%230a0d0f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' opacity='0.16'%3E%3Cpath d='M22 20v22M30 20v22M26 42v26M52 20c0 8-6 10-6 16s6 6 6 12v20'/%3E%3Cpath d='M126 34c0-8 6-14 14-14 3 0 6 1 8 3-2 8-8 13-16 13z'/%3E%3Ccircle cx='134' cy='58' r='13'/%3E%3Cpath d='M134 45v-6'/%3E%3Cpath d='M40 118c7-9 16-9 23 0s16 9 23 0'/%3E%3Cpath d='M118 108l7 7 13-14'/%3E%3Ccircle cx='60' cy='150' r='11'/%3E%3Cpath d='M60 143v8l5 3'/%3E%3Cpath d='M140 132v22M133 154h14'/%3E%3C/g%3E%3C/svg%3E");background-size:200px 200px;opacity:.34;
   pointer-events:none}
 .hero,.rules,.day,.fact{position:relative}
+/* paper grain over everything, ink halftone inside the dark blocks */
+body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");background-size:220px 220px;
+  mix-blend-mode:multiply;opacity:.3}
+.wrap{position:relative;z-index:1}
+.rules,.vault{background-image:
+  radial-gradient(currentColor .9px,transparent .9px),
+  linear-gradient(105deg,rgba(255,255,255,.05) 0 42%,transparent 42%);
+  background-size:7px 7px,100% 100%;background-position:0 0,0 0;
+  color:var(--paper)}
+.rules>*,.vault>*{position:relative}
+.day{background-image:linear-gradient(180deg,rgba(10,13,15,.035),transparent 42px)}
+.fact{background-image:repeating-linear-gradient(45deg,
+  rgba(10,13,15,.035) 0 2px,transparent 2px 7px)}
+.glyph--dark,.glyph--red,.btn{background-image:
+  radial-gradient(rgba(255,255,255,.14) .8px,transparent .8px);background-size:5px 5px}
+@media print{body::after{display:none}}
 .wrap{max-width:1240px;margin:0 auto}
 .rule{height:3px;background:var(--ink)}
 .rule--red{height:10px;background:var(--red)}
@@ -69,8 +86,9 @@ h1 .dot{color:var(--red)}
 section{padding:clamp(30px,5vw,52px) var(--pad) 0}
 .sect-label{font-size:14px;font-weight:800;letter-spacing:2px;color:var(--red)}
 
-.rules{background:var(--ink);color:var(--paper);padding:clamp(24px,4vw,38px) clamp(20px,4vw,44px);
+.rules{background:var(--ink);color:rgba(245,242,234,.09);padding:clamp(24px,4vw,38px) clamp(20px,4vw,44px);
   margin-top:22px;display:flex;flex-direction:column;gap:16px}
+.rules li,.rules ol{color:var(--paper)}
 .rules li{display:flex;align-items:baseline;gap:16px;font-size:clamp(20px,4vw,30px);font-weight:800}
 .rules ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
 .rules .ico{width:clamp(26px,4vw,34px);height:clamp(26px,4vw,34px);flex:none;fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -145,8 +163,9 @@ button{font:inherit;cursor:pointer}
 .tick[aria-pressed="true"] .box{background:var(--red)}
 .tick span:last-child{font-size:15px;font-weight:800;letter-spacing:1px}
 
-.vault{margin-top:20px;border:3px solid var(--ink);background:var(--ink);color:var(--paper);
+.vault{margin-top:20px;border:3px solid var(--ink);background:var(--ink);color:rgba(245,242,234,.09);
   padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:20px}
+.vault-main,.vault-meter{color:var(--paper)}
 .vault-main{display:flex;gap:20px;align-items:flex-start}
 .lock{width:64px;height:64px;flex:none;border:3px solid var(--mute);display:flex;
   align-items:center;justify-content:center}
