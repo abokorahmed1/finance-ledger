@@ -202,8 +202,9 @@ button{font:inherit;cursor:pointer}
 .slip p{font-size:17px;margin:0 0 8px;line-height:1.45;max-width:60ch}
 .slip .fine{font-size:15px;color:var(--mute);padding-top:12px}
 
-footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
-  padding:20px var(--pad) 0;font-size:15px}
+footer{display:flex;flex-direction:column;gap:10px;padding:20px var(--pad) 0;font-size:15px}
+.foot-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer .fine{margin:0;font-size:13px;color:var(--mute);max-width:70ch}
 footer b{font-size:17px;font-weight:800;letter-spacing:2px}
 #install{display:none}
 @media (prefers-reduced-motion:no-preference){.box{transition:background .12s ease}}
@@ -293,21 +294,13 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
         <div class="meter-label"><span id="meterCount">0 of 8 weeks complete</span><span id="meterLeft">Week 1 in progress</span></div>
       </div>
     </div>
-    <div class="slip">
-      <div>
-        <p class="big">A blank day is a missed day.</p>
-        <p class="big">Guessing on Sunday is not a diary.</p>
-      </div>
-      <div>
-        <p>Steps count from waking to sleeping &mdash; phone or watch, whichever you actually carry. Whatever you walk today, tomorrow&rsquo;s target is that number plus one.</p>
-        <p>Write it the way you ate it &mdash; brands, takeaways, drinks, the lot. Rough portions are fine.</p>
-        <p class="fine">This is a starter framework, not medical advice. Adjust portions for hunger, training, health needs and professional guidance.</p>
-      </div>
-    </div>
   </section>
 
   <div class="rule--red" style="height:6px;margin:clamp(28px,5vw,44px) var(--pad) 0"></div>
-  <footer><b>LEVEL 1</b><span>FOOD FIRST. CONSISTENCY ALWAYS.</span></footer>
+  <footer>
+    <div class="foot-row"><b>LEVEL 1</b><span>FOOD FIRST. CONSISTENCY ALWAYS.</span></div>
+    <p class="fine">A starter framework, not medical advice. Adjust portions for hunger, training, health needs and professional guidance.</p>
+  </footer>
 </div>
 
 <script>
