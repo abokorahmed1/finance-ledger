@@ -3,21 +3,39 @@
    Themes set tokens only; every component reads tokens.
    Switch with <html data-theme="carbon">.
 ----------------------------------------------------------------*/
+/* Default: follows the phone. Greengrocer by day, Locker Room at night. */
 :root{
-  --ink:#0a0d0f;
-  --paper:#f5f2ea;
-  --paper-2:#e8e3d8;
-  --accent:#f23520;
-  --mute:#55524d;
-  --green:#1f7a4d;
-  --blue:#1c5fb8;
-  --gold:#e0a10f;
-  --plum:#8a2f6b;
+  --ink:#10281c;
+  --paper:#f6f7f1;
+  --paper-2:#e6ebe0;
+  --accent:#e2582f;
+  --mute:#5f7268;
+  --green:#1f6b45;
+  --blue:#2b6b8f;
+  --gold:#d9a521;
+  --plum:#8d3f63;
   --display:"Anton","Arial Narrow",Impact,sans-serif;
   --body:"Archivo","Helvetica Neue",Arial,sans-serif;
   --display-track:-.02em;
   --pad:clamp(18px,5vw,64px);
-  --grain:.3;
+  --grain:.2;
+  --radius:0px;
+  --invert-bg:#10281c;
+  --invert-fg:#f6f7f1;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme]){
+    --ink:#f2f4f3;--paper:#1f2a24;--paper-2:#2a382f;--accent:#ff5a3c;--mute:#93a49a;
+    --green:#7ad39a;--blue:#7fb2f0;--gold:#f5c451;--plum:#e08ac0;--grain:.3;--radius:14px;
+    --invert-bg:#16211b;--invert-fg:#f2f4f3;
+  }
+}
+/* the original look, kept for the home page */
+[data-theme="press"]{
+  --invert-bg:#0a0d0f;--invert-fg:#f5f2ea;
+  --ink:#0a0d0f;--paper:#f5f2ea;--paper-2:#e8e3d8;--accent:#f23520;--mute:#55524d;
+  --green:#1f7a4d;--blue:#1c5fb8;--gold:#e0a10f;--plum:#8a2f6b;--grain:.3;--radius:0px;
+  --display:"Anton","Arial Narrow",Impact,sans-serif;--display-track:-.02em;
 }
 [data-theme="mono"]{
   --ink:#111;--paper:#fff;--paper-2:#eee;--accent:#e10600;--mute:#777;
@@ -25,6 +43,7 @@
   --display:"Archivo","Helvetica Neue",Arial,sans-serif;--display-track:-.04em;
 }
 [data-theme="carbon"]{
+  --invert-bg:#0d1013;--invert-fg:#e9edea;
   --ink:#e9edea;--paper:#14171a;--paper-2:#1e2328;--accent:#c6f24a;--mute:#8c948f;
   --green:#5fd08a;--blue:#63a8ff;--gold:#ffc95c;--plum:#d98cc8;--grain:.16;
 }
@@ -39,6 +58,7 @@
   --display:"DM Serif Display",Georgia,serif;--display-track:0;
 }
 [data-theme="market"]{
+  --invert-bg:#10281c;--invert-fg:#f6f7f1;
   --ink:#10281c;--paper:#f6f7f1;--paper-2:#e6ebe0;--accent:#e2582f;--mute:#5f7268;
   --green:#1f6b45;--blue:#2b6b8f;--gold:#d9a521;--plum:#8d3f63;--grain:.2;
 }
@@ -53,6 +73,7 @@
   --display:"Bebas Neue","Arial Narrow",sans-serif;--display-track:.02em;
 }
 [data-theme="late"]{
+  --invert-bg:#170a1a;--invert-fg:#f3e8ef;
   --ink:#f3e8ef;--paper:#241228;--paper-2:#33193a;--accent:#ffb45c;--mute:#a58fa8;
   --green:#7fd6a0;--blue:#8fb6ff;--gold:#ffd479;--plum:#ff8fc4;--grain:.22;
   --display:"DM Serif Display",Georgia,serif;--display-track:0;
@@ -64,6 +85,7 @@
   --body:"IBM Plex Mono",ui-monospace,monospace;
 }
 [data-theme="chalk"]{
+  --invert-bg:#16211b;--invert-fg:#f2f4f3;
   --ink:#f2f4f3;--paper:#1f2a24;--paper-2:#2a382f;--accent:#ff5a3c;--mute:#93a49a;
   --green:#7ad39a;--blue:#7fb2f0;--gold:#f5c451;--plum:#e08ac0;--grain:.3;
 }
@@ -116,3 +138,14 @@ button{font:inherit;cursor:pointer}
 .field input::placeholder{color:var(--mute);font-weight:400}
 .note{font-size:13px;color:var(--mute);line-height:1.45}
 .err{font-size:13px;font-weight:700;color:var(--accent);min-height:1.2em}
+
+/* Corners come from the theme — square everywhere except Locker Room. */
+.card,.panel,.food,.mealcard,.swaps,.remind,.vault,.foodbtn,.skin,.sheet-box,.lvl,
+.btn,.add,.arrow,.pill,.chip,.time,.time--add,.toggle,.plate-key i,
+.field input,.field select,.addrow input,.shop input{border-radius:var(--radius)}
+.toggle{overflow:hidden}
+.weeks i,.lock{border-radius:calc(var(--radius) / 2)}
+
+/* Panels meant to read as ink blocks stay dark in every theme. */
+.rules,.vault{background:var(--invert-bg);color:var(--invert-fg)}
+.rules li,.rules ol{color:var(--invert-fg)}

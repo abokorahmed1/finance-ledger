@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="press">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Bebas+Neue&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="./style.css">
-<script>try{var t=localStorage.getItem("level1-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <style>
 .hero{padding:clamp(30px,7vw,72px) var(--pad) 0;display:grid;gap:clamp(24px,5vw,56px);
   grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);align-items:start}
@@ -115,21 +114,22 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
   </div>
 
   <div class="themebar">
-    <span class="eyebrow" style="color:var(--mute)">THEME</span>
-    <select id="theme" aria-label="Site theme">
-      <option value="">Newsprint Press</option>
+    <span class="eyebrow" style="color:var(--mute)">PLAN THEME</span>
+    <select id="theme" aria-label="Theme for the plan pages">
+      <option value="">Auto &mdash; Greengrocer by day, Locker Room at night</option>
+      <option value="market">Greengrocer (light)</option>
+      <option value="chalk">Locker Room (dark, rounded)</option>
+      <option value="press">Newsprint Press</option>
       <option value="mono">Gym Chalk</option>
       <option value="carbon">Night Shift</option>
       <option value="clinic">Clinic</option>
       <option value="sand">Sunday Market</option>
-      <option value="market">Greengrocer</option>
       <option value="steel">Iron Works</option>
       <option value="track">Track Club</option>
       <option value="late">Late Kitchen</option>
       <option value="field">Field Notes</option>
-      <option value="chalk">Locker Room</option>
     </select>
-    <span class="note">Sets the look for the whole site on this device.</span>
+    <span class="note">Sets the look of the diary and food pages. This page keeps its own.</span>
   </div>
 
   <div class="rule--accent" style="margin:clamp(26px,5vw,44px) var(--pad) 0"></div>
@@ -145,7 +145,10 @@ footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
 <script>
 const themeSel=document.getElementById("theme");
 themeSel.value=Level1.Theme.get();
-themeSel.addEventListener("change",()=>Level1.Theme.set(themeSel.value));
+themeSel.addEventListener("change",()=>{
+  try{ themeSel.value?localStorage.setItem("level1-theme",themeSel.value)
+                     :localStorage.removeItem("level1-theme"); }catch(e){}
+});
 
 const form=document.getElementById("loginForm"), err=document.getElementById("err");
 const existing=Level1.Session.get();
