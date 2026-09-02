@@ -42,20 +42,29 @@ header.top{display:flex;justify-content:space-between;align-items:center;
 .pill{border:2px solid var(--ink);padding:6px 10px;font-size:12px;letter-spacing:1.5px}
 
 .hero{padding:clamp(28px,6vw,54px) var(--pad) 0}
+.hero-row{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-end}
+.plate{border:3px solid var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:4px;
+  min-width:230px}
+.plate label,.plate-note{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--red)}
+.plate-note{color:var(--mute)}
+.plate input{font:inherit;font-size:21px;font-weight:800;background:transparent;color:var(--ink);
+  border:0;border-bottom:2px solid var(--ink);padding:2px 0 4px;width:100%}
+.plate input:focus-visible{outline:0;border-bottom-color:var(--red)}
 h1{font-family:var(--display);font-weight:400;margin:0;
   font-size:clamp(46px,11vw,104px);line-height:.9;letter-spacing:-.02em}
 h1 .dot{color:var(--red)}
 
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;
   padding-top:clamp(22px,4vw,34px)}
-.fact{border:3px solid var(--ink);padding:20px 22px;display:flex;align-items:center;gap:18px}
+.fact{border:3px solid var(--ink);padding:18px 20px;display:flex;align-items:flex-start;gap:16px}
 .glyph{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;
   font-weight:800;line-height:1;font-size:26px}
 .glyph--box{border:4px solid var(--ink);color:var(--red);font-size:30px}
 .glyph--dark{border-radius:50%;background:var(--ink);color:var(--paper);font-size:19px;letter-spacing:.5px}
 .glyph--red{border-radius:50%;background:var(--red);color:var(--paper);font-size:32px}
 .eyebrow{font-size:13px;font-weight:800;letter-spacing:2px;color:var(--red)}
-.fact b{display:block;font-size:20px;font-weight:800;padding-top:2px}
+.fact b{display:block;font-size:19px;font-weight:800;padding-top:2px;line-height:1.2}
+.fact small{display:block;font-size:13px;font-weight:500;color:var(--mute);padding-top:6px;line-height:1.35}
 
 section{padding:clamp(30px,5vw,52px) var(--pad) 0}
 .sect-label{font-size:14px;font-weight:800;letter-spacing:2px;color:var(--red)}
@@ -80,49 +89,49 @@ button{font:inherit;cursor:pointer}
 .btn--ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
 .btn--ghost:hover{background:var(--ink);color:var(--paper)}
 
-.days{display:flex;flex-direction:column;gap:10px;padding-top:22px}
-.day{display:grid;grid-template-columns:70px 1fr auto;row-gap:4px;align-items:start;gap:16px;
-  border:2px solid var(--ink);background:var(--paper);padding:18px 18px}
+.days{display:flex;flex-direction:column;gap:8px;padding-top:18px}
+.day{display:grid;grid-template-columns:48px 1fr auto;align-items:center;column-gap:14px;row-gap:2px;
+  border:2px solid var(--ink);background:var(--paper);padding:12px 14px}
 .day.done{background:var(--paper-2)}
-.day .num{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;letter-spacing:-1px}
+.day .num{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;letter-spacing:-1px}
 .day.done .num{color:var(--red)}
-.day .meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;
-  font-size:13px;font-weight:800;letter-spacing:1.5px}
+.day .meta{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;
+  font-size:12px;font-weight:800;letter-spacing:1.5px}
 .day .curfew{color:var(--ink)}
 .day .name{color:var(--red)}
 .lines{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
 .lines li{font-size:clamp(16px,3.4vw,21px);font-weight:800}
-.ticks{display:flex;flex-direction:column;gap:8px;align-items:flex-end;text-align:right}
-.target{display:flex;flex-direction:column;gap:2px;font-size:11px;font-weight:800;
-  letter-spacing:1.5px;color:var(--mute);line-height:1.2}
-.target b{font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:0;
+.ticks{display:flex;align-items:center;gap:10px}
+.target{display:flex;align-items:baseline;gap:6px;font-size:10px;font-weight:800;
+  letter-spacing:1.5px;color:var(--mute);line-height:1}
+.target b{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:0;
   color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
-.steps-in{width:130px;font:inherit;font-size:17px;font-weight:800;text-align:right;
+.steps-in{width:112px;font:inherit;font-size:15px;font-weight:800;text-align:right;
   font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink);
-  border:3px solid var(--ink);padding:8px 10px}
+  border:2px solid var(--ink);padding:6px 8px}
 .steps-in:focus-visible{outline:3px solid var(--red);outline-offset:2px}
-.chip{font-size:12px;font-weight:800;letter-spacing:1.5px;padding:4px 8px;border:2px solid var(--ink)}
+.chip{font-size:11px;font-weight:800;letter-spacing:1.5px;padding:3px 7px;border:2px solid var(--ink);white-space:nowrap}
 .chip.beat{background:var(--red);color:var(--paper);border-color:var(--red)}
 .chip.short{background:transparent;color:var(--mute);border-color:var(--mute)}
-.log{grid-column:2/-1;display:flex;flex-direction:column;gap:8px;padding-top:10px}
-.log label{font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
+.log{grid-column:2/-1;display:flex;flex-direction:column;gap:6px;padding-top:8px}
+.log label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
 .addrow{display:flex;gap:8px;flex-wrap:wrap}
-.addrow input[type=text]{flex:1 1 200px;min-width:0;font:inherit;font-size:16px;font-weight:600;
-  background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:9px 11px}
+.addrow input[type=text]{flex:1 1 180px;min-width:0;font:inherit;font-size:15px;font-weight:600;
+  background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:7px 10px}
 .addrow input::placeholder{color:var(--mute);font-weight:400}
 .addrow input:focus-visible,.steps-in:focus-visible{outline:3px solid var(--red);outline-offset:2px}
-.add{background:var(--ink);color:var(--paper);border:0;padding:9px 16px;font-size:13px;
+.add{background:var(--ink);color:var(--paper);border:0;padding:7px 14px;font-size:12px;
   font-weight:800;letter-spacing:2px}
 .add:hover{background:var(--red)}
-.meals{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.meals li{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;
-  border-bottom:2px solid var(--paper-2);padding-bottom:5px}
-.meals .t{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--red);flex:none;
+.meals{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.meals li{display:flex;align-items:baseline;gap:9px;font-size:14px;font-weight:700;
+  border-bottom:1px solid var(--paper-2);padding-bottom:3px}
+.meals .t{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--red);flex:none;
   font-variant-numeric:tabular-nums}
 .meals .x{margin-left:auto;background:none;border:0;color:var(--mute);font-size:16px;
   font-weight:800;line-height:1;padding:2px 4px}
 .meals .x:hover{color:var(--red)}
-.empty{font-size:15px;color:var(--mute)}
+.empty{font-size:13px;color:var(--mute)}
 .lastate{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
 .lastate input{font:inherit;font-size:15px;font-weight:700;background:var(--paper);color:var(--ink);
   border:2px solid var(--ink);padding:6px 8px}
@@ -136,7 +145,37 @@ button{font:inherit;cursor:pointer}
 .tick[aria-pressed="true"] .box{background:var(--red)}
 .tick span:last-child{font-size:15px;font-weight:800;letter-spacing:1px}
 
-.slip{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,4vw,48px);
+.vault{margin-top:20px;border:3px solid var(--ink);background:var(--ink);color:var(--paper);
+  padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:20px}
+.vault-main{display:flex;gap:20px;align-items:flex-start}
+.lock{width:64px;height:64px;flex:none;border:3px solid var(--mute);display:flex;
+  align-items:center;justify-content:center}
+.lock svg{width:36px;height:36px;fill:none;stroke:var(--mute);stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.lock svg .shackle{transform-origin:12px 10px}
+.vault-state{font-size:12px;font-weight:800;letter-spacing:3px;color:var(--mute)}
+.vault h3{font-family:var(--display);font-weight:400;margin:4px 0 0;
+  font-size:clamp(34px,7vw,58px);line-height:1;letter-spacing:-.02em;color:var(--mute)}
+.vault p{margin:10px 0 0;font-size:17px;line-height:1.45;max-width:56ch;color:#a8a49c}
+.meter{height:14px;background:#1e2225;border:2px solid var(--mute);display:flex}
+.meter span{display:block;background:var(--mute);width:0}
+.meter-label{display:flex;justify-content:space-between;gap:12px;padding-top:8px;
+  font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--mute);
+  font-variant-numeric:tabular-nums}
+.vault[data-state="open"]{border-color:var(--red)}
+.vault[data-state="open"] .lock{border-color:var(--red)}
+.vault[data-state="open"] .lock svg{stroke:var(--red)}
+.vault[data-state="open"] .lock svg .shackle{transform:translateX(5px) rotate(28deg)}
+.vault[data-state="open"] .vault-state,
+.vault[data-state="open"] h3{color:var(--red)}
+.vault[data-state="open"] p{color:var(--paper)}
+.vault[data-state="open"] .meter span{background:var(--red)}
+.vault[data-state="open"] .meter{border-color:var(--red)}
+@media (prefers-reduced-motion:no-preference){
+  .meter span{transition:width .35s ease}
+  .lock svg .shackle{transition:transform .3s ease}
+}
+.slip{padding-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,4vw,48px);
   padding-top:22px}
 .slip .big{font-size:clamp(20px,3.6vw,27px);font-weight:800;margin:0 0 10px}
 .slip p{font-size:17px;margin:0 0 8px;line-height:1.45;max-width:60ch}
@@ -148,11 +187,10 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
 #install{display:none}
 @media (prefers-reduced-motion:no-preference){.box{transition:background .12s ease}}
 @media (max-width:520px){
-  .day{grid-template-columns:52px 1fr;row-gap:12px}
-  .day .num{font-size:32px}
-  .ticks{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;align-items:center;
-    justify-content:flex-start;text-align:left;gap:14px}
-  .target b{font-size:22px}
+  .day{grid-template-columns:40px 1fr;row-gap:8px}
+  .day .num{font-size:26px}
+  .ticks{grid-column:1/-1;flex-wrap:wrap;gap:8px}
+  .target b{font-size:20px}
 }
 </style>
 </head>
@@ -166,15 +204,22 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
   <div class="rule"></div>
 
   <div class="hero">
-    <h1>LEVEL 1<br>WEEK ONE<span class="dot">.</span></h1>
+    <div class="hero-row">
+      <h1>LEVEL 1<br>WEEK ONE<span class="dot">.</span></h1>
+      <div class="plate">
+        <label for="clientName">NAME</label>
+        <input id="clientName" type="text" value="Kazi Mahbub" spellcheck="false" aria-label="Client name">
+        <span class="plate-note">WEEK 1 OF 8</span>
+      </div>
+    </div>
     <div class="rule--red" style="margin-top:clamp(18px,4vw,34px)"></div>
     <div class="facts">
       <div class="fact"><div class="glyph glyph--box">&#9998;</div>
-        <div><div class="eyebrow">WRITE IT</div><b>Every meal, every day</b></div></div>
+        <div><div class="eyebrow">WRITE IT</div><b>Every meal, every day</b><small>Add each one as you eat it &mdash; the app stamps the time for you.</small></div></div>
       <div class="fact"><div class="glyph glyph--dark">10K+</div>
-        <div><div class="eyebrow">STEPS</div><b>Beat yesterday by one</b></div></div>
+        <div><div class="eyebrow">STEPS</div><b>Beat yesterday by one</b><small>Walk 13,000 today and tomorrow&rsquo;s target is 13,001. The bar only ever goes up.</small></div></div>
       <div class="fact"><div class="glyph glyph--red">&#8594;</div>
-        <div><div class="eyebrow">LEVEL 2</div><b>Seven logged days</b></div></div>
+        <div><div class="eyebrow">LEVEL 2</div><b>Seven logged days</b><small>All seven days filled in unlocks your real targets.</small></div></div>
     </div>
   </div>
 
@@ -209,12 +254,28 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
   <div class="rule" style="margin:clamp(28px,5vw,48px) var(--pad) 0"></div>
 
   <section>
-    <div class="sect-label">03 / WHAT HAPPENS NEXT</div>
+    <div class="sect-label">03 / THE REWARD</div>
+    <div class="vault" id="vault" data-state="locked">
+      <div class="vault-main">
+        <div class="lock" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="1.5"/>
+            <path class="shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.6"/></svg>
+        </div>
+        <div>
+          <div class="vault-state" id="vaultState">LOCKED</div>
+          <h3 id="vaultTitle">Level 2</h3>
+          <p id="vaultCopy">Log all seven days and Level 2 opens up: real targets, built from what you actually ate this week.</p>
+        </div>
+      </div>
+      <div class="vault-meter">
+        <div class="meter"><span id="meterFill" style="width:0%"></span></div>
+        <div class="meter-label"><span id="meterCount">0 of 7 days logged</span><span id="meterLeft">7 to go</span></div>
+      </div>
+    </div>
     <div class="slip">
       <div>
         <p class="big">A blank day is a missed day.</p>
         <p class="big">Guessing on Sunday is not a diary.</p>
-        <p class="big">Seven logged days unlocks Level 2.</p>
       </div>
       <div>
         <p>Steps count from waking to sleeping &mdash; phone or watch, whichever you actually carry. Whatever you walk today, tomorrow&rsquo;s target is that number plus one.</p>
@@ -302,6 +363,7 @@ function render(){
     daysEl.appendChild(row);
   });
   doneEl.textContent=loggedCount();
+  updateVault();
 }
 
 function addMeal(i){
@@ -327,12 +389,30 @@ daysEl.addEventListener("change",ev=>{
   log[+t.dataset.i].steps=t.value.trim(); save(); render();
 });
 
+const vault=document.getElementById("vault");
+function updateVault(){
+  const n=loggedCount(), open=n===7;
+  vault.dataset.state=open?"open":"locked";
+  document.getElementById("meterFill").style.width=(n/7*100)+"%";
+  document.getElementById("meterCount").textContent=n+" of 7 days logged";
+  document.getElementById("meterLeft").textContent=open?"UNLOCKED":(7-n)+" to go";
+  document.getElementById("vaultState").textContent=open?"UNLOCKED":"LOCKED";
+  document.getElementById("vaultTitle").textContent=open?"Level 2 is yours":"Level 2";
+  document.getElementById("vaultCopy").textContent=open
+    ? "Seven days, all logged. Send the week over with COPY WEEK and your Level 2 targets get built from what you actually ate."
+    : "Log all seven days and Level 2 opens up: real targets, built from what you actually ate this week.";
+}
+
+const nameEl=document.getElementById("clientName");
+try{const nm=localStorage.getItem(KEY+"-name"); if(nm) nameEl.value=nm;}catch(e){}
+nameEl.addEventListener("input",()=>{try{localStorage.setItem(KEY+"-name",nameEl.value);}catch(e){}});
+
 document.getElementById("reset").addEventListener("click",()=>{
   if(confirm("Clear the whole week and start again?")){log=blank();save();render();}
 });
 
 document.getElementById("export").addEventListener("click",async()=>{
-  const text="LEVEL 1 — WEEK ONE\n\n"+DAYS.map((d,i)=>{
+  const text="LEVEL 1 — WEEK ONE — "+nameEl.value+"\n\n"+DAYS.map((d,i)=>{
     const t=targetFor(i), n=stepsOf(i);
     const meals=log[i].meals.length?log[i].meals.map(m=>"  "+(m.at?m.at+"  ":"")+m.text).join("\n"):"  (nothing logged)";
     return d.name+"\n"+meals+"\nSteps: "+(n===null?"—":nf.format(n))+
