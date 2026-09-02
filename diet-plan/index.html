@@ -335,7 +335,7 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
       <div class="score">
         <div class="count"><span id="done">0</span> / 7 DAYS LOGGED</div>
         <span class="sync" id="sync">Saved on this device</span>
-        <button class="btn btn--ghost" id="export" type="button">COPY WEEK</button>
+        <button class="btn btn--ghost" id="export" type="button">SEND WEEK</button>
         <button class="btn" id="reset" type="button">START AGAIN</button>
       </div>
     </div>
@@ -569,9 +569,14 @@ document.getElementById("export").addEventListener("click",async()=>{
       (t===null?"":"  (target "+nf.format(t)+")");
   }).join("\n\n");
   const btn=document.getElementById("export");
+  if(navigator.share){
+    try{ await navigator.share({title:"Level 1 — Week One",text}); btn.textContent="SENT";
+      setTimeout(()=>{btn.textContent="SEND WEEK";},1600); return; }
+    catch(err){ if(err&&err.name==="AbortError")return; }
+  }
   try{
     await navigator.clipboard.writeText(text);
-    btn.textContent="COPIED"; setTimeout(()=>{btn.textContent="COPY WEEK";},1600); return;
+    btn.textContent="COPIED"; setTimeout(()=>{btn.textContent="SEND WEEK";},1600); return;
   }catch(err){}
   showText(text);
 });
@@ -581,7 +586,7 @@ function showText(text){
   const back=document.createElement("div");
   back.className="sheet";
   back.innerHTML='<div class="sheet-box"><div class="eyebrow">YOUR WEEK</div>'+
-    '<p class="sheet-note">Select it all and copy — your browser blocked the copy button here.</p>'+
+    '<p class="sheet-note">Copy this and send it to your coach.</p>'+
     '<textarea readonly></textarea>'+
     '<div class="sheet-btns"><button class="btn" type="button" data-close>CLOSE</button></div></div>';
   const ta=back.querySelector("textarea");
