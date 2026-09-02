@@ -584,7 +584,7 @@ setInterval(()=>{
   }
 },20000);
 
-document.getElementById("icsBtn").addEventListener("click",()=>{
+document.getElementById("icsBtn").addEventListener("click",async()=>{
   const pad=n=>String(n).padStart(2,"0");
   const d=new Date(), y=d.getFullYear(), m=pad(d.getMonth()+1), day=pad(d.getDate());
   const ev=remind.times.map((t,i)=>{
@@ -602,11 +602,26 @@ document.getElementById("icsBtn").addEventListener("click",()=>{
       "END:VEVENT"].join("\r\n");
   }).join("\r\n");
   const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Level 1//Week One//EN",ev,"END:VCALENDAR"].join("\r\n");
+  const filename="level-1-reminders.ics";
+  let saved=false;
+  try{
+    const dl=window.claude? await claude.use("downloads") : null;
+    if(dl){ await dl.save({filename,data:ics}); saved=true; }
+  }catch(e){ return; }
+  if(saved)return;
   const url=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
   const a=document.createElement("a");
-  a.href=url; a.download="level-1-reminders.ics"; document.body.appendChild(a); a.click();
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click();
   setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
 });
+
+(async()=>{
+  const icsBtn=document.getElementById("icsBtn");
+  const hosted=location.protocol.startsWith("http")&&!("claude" in window);
+  let dl=null;
+  try{ dl=window.claude? await claude.use("downloads") : null; }catch(e){}
+  if(!hosted&&!dl) icsBtn.hidden=true;
+})();
 
 renderTimes();
 
