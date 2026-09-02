@@ -86,13 +86,14 @@ h1 .dot{color:var(--red)}
 section{padding:clamp(30px,5vw,52px) var(--pad) 0}
 .sect-label{font-size:14px;font-weight:800;letter-spacing:2px;color:var(--red)}
 
-.rules{background:var(--ink);color:rgba(245,242,234,.09);padding:clamp(24px,4vw,38px) clamp(20px,4vw,44px);
-  margin-top:22px;display:flex;flex-direction:column;gap:16px}
+.rules{background:var(--ink);color:rgba(245,242,234,.09);padding:clamp(16px,2.6vw,22px) clamp(16px,3vw,26px);
+  margin-top:14px}
 .rules li,.rules ol{color:var(--paper)}
-.rules li{display:flex;align-items:baseline;gap:16px;font-size:clamp(20px,4vw,30px);font-weight:800}
-.rules ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
-.rules .ico{width:clamp(26px,4vw,34px);height:clamp(26px,4vw,34px);flex:none;fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.rules .n{font-family:var(--display);font-weight:400;font-size:24px;color:var(--red);min-width:38px;flex:none}
+.rules li{display:flex;align-items:center;gap:12px;font-size:clamp(16px,2.4vw,20px);font-weight:800;line-height:1.25}
+.rules ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:10px 26px}
+.rules .ico{width:22px;height:22px;flex:none;fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rules .n{font-family:var(--display);font-weight:400;font-size:17px;color:var(--red);min-width:24px;flex:none}
 .rules .shift{display:block;font-size:15px;font-weight:600;color:var(--red);letter-spacing:1px;padding-top:4px}
 
 .week-head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end}
@@ -107,6 +108,23 @@ button{font:inherit;cursor:pointer}
 .btn--ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
 .btn--ghost:hover{background:var(--ink);color:var(--paper)}
 
+.remind{border:3px solid var(--ink);padding:14px 16px;margin-top:18px;
+  display:flex;flex-direction:column;gap:12px}
+.remind-head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+.remind-title{font-size:19px;font-weight:800;padding-top:2px}
+.times{display:flex;flex-wrap:wrap;gap:8px}
+.time{display:flex;align-items:center;gap:8px;border:2px solid var(--ink);padding:5px 8px}
+.time input{font:inherit;font-size:15px;font-weight:800;background:transparent;color:var(--ink);
+  border:0;font-variant-numeric:tabular-nums}
+.time .lbl{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
+.time button{background:none;border:0;color:var(--mute);font-weight:800;padding:0 2px}
+.time button:hover{color:var(--red)}
+.time--add{border-style:dashed;font-size:12px;font-weight:800;letter-spacing:1.5px;
+  background:none;cursor:pointer;color:var(--ink)}
+.remind-foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
+  font-size:13px;color:var(--mute)}
+.remind.on{border-color:var(--red)}
+.remind.on .remind-foot span{color:var(--ink);font-weight:700}
 .days{display:flex;flex-direction:column;gap:8px;padding-top:18px}
 .day{display:grid;grid-template-columns:48px 1fr auto;align-items:center;column-gap:14px;row-gap:2px;
   border:2px solid var(--ink);background:var(--paper);padding:12px 14px}
@@ -120,13 +138,12 @@ button{font:inherit;cursor:pointer}
 .lines{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
 .lines li{font-size:clamp(16px,3.4vw,21px);font-weight:800}
 .ticks{display:flex;align-items:center;gap:10px}
-.target{display:flex;align-items:baseline;gap:6px;font-size:10px;font-weight:800;
-  letter-spacing:1.5px;color:var(--mute);line-height:1}
+.target{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--mute);line-height:1}
 .target b{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:0;
   color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
-.steps-in{width:112px;font:inherit;font-size:15px;font-weight:800;text-align:right;
+.steps-in{width:132px;font:inherit;font-size:22px;font-weight:800;text-align:right;
   font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink);
-  border:2px solid var(--ink);padding:6px 8px}
+  border:3px solid var(--ink);padding:8px 10px}
 .steps-in:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 .chip{font-size:11px;font-weight:800;letter-spacing:1.5px;padding:3px 7px;border:2px solid var(--ink);white-space:nowrap}
 .chip.beat{background:var(--red);color:var(--paper);border-color:var(--red)}
@@ -228,7 +245,7 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
   .day{grid-template-columns:40px 1fr;row-gap:8px}
   .day .num{font-size:26px}
   .ticks{grid-column:1/-1;flex-wrap:wrap;gap:8px}
-  .target b{font-size:20px}
+
 }
 </style>
 </head>
@@ -284,6 +301,20 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
         <div class="count"><span id="done">0</span> / 7 DAYS LOGGED</div>
         <button class="btn btn--ghost" id="export" type="button">COPY WEEK</button>
         <button class="btn" id="reset" type="button">START AGAIN</button>
+      </div>
+    </div>
+    <div class="remind">
+      <div class="remind-head">
+        <div>
+          <div class="eyebrow">REMINDERS</div>
+          <div class="remind-title">Get a nudge to write it down.</div>
+        </div>
+        <button class="btn" id="remindBtn" type="button">TURN ON</button>
+      </div>
+      <div class="times" id="times"></div>
+      <div class="remind-foot">
+        <span id="remindState">Off. Reminders only fire while the app is open on this device.</span>
+        <button class="btn btn--ghost" id="icsBtn" type="button">ADD TO PHONE CALENDAR</button>
       </div>
     </div>
     <div class="days" id="days"></div>
@@ -394,10 +425,9 @@ const loggedCount=()=>log.filter(d=>d.meals.length).length;
 
 function stepsBlock(i){
   const t=targetFor(i), n=stepsOf(i);
-  const head=t===null
-    ? '<div class="target"><span>TARGET</span><b>&mdash;</b><span>TODAY SETS IT</span></div>'
-    : '<div class="target"><span>TARGET</span><b>'+nf.format(t)+'</b><span>STEPS</span></div>';
-  const chip=n===null?""
+  const head='<div class="target"><span>STEPS</span></div>';
+  const chip=n===null
+    ?(t===null?'<span class="chip">SETS THE BAR</span>':'<span class="chip">TARGET '+nf.format(t)+'</span>')
     :(t===null?'<span class="chip beat">BAR SET</span>'
       :'<span class="chip '+(n>=t?"beat":"short")+'">'+(n>=t?"BEAT IT":"SHORT BY "+nf.format(t-n))+'</span>');
   return head+
@@ -493,6 +523,92 @@ document.getElementById("export").addEventListener("click",async()=>{
   catch(err){ window.prompt("Copy your week:",text); return; }
   setTimeout(()=>{btn.textContent="COPY WEEK";},1600);
 });
+
+/* ---- reminders ---- */
+const RKEY=KEY+"-remind";
+let remind={on:false,times:["09:00","14:00","21:00"]};
+try{const r=localStorage.getItem(RKEY); if(r) remind={...remind,...JSON.parse(r)};}catch(e){}
+const saveRemind=()=>{try{localStorage.setItem(RKEY,JSON.stringify(remind));}catch(e){}};
+
+const remindEl=document.querySelector(".remind");
+const timesEl=document.getElementById("times");
+const remindBtn=document.getElementById("remindBtn");
+const remindState=document.getElementById("remindState");
+
+function renderTimes(){
+  timesEl.innerHTML=remind.times.map((t,i)=>
+    '<div class="time"><span class="lbl">NUDGE</span>'+
+    '<input type="time" value="'+t+'" data-t="'+i+'" aria-label="Reminder time '+(i+1)+'">'+
+    '<button type="button" data-rm="'+i+'" aria-label="Remove reminder">&#10005;</button></div>').join("")+
+    (remind.times.length<5?'<button class="time time--add" type="button" id="addTime">+ ADD TIME</button>':"");
+  remindEl.classList.toggle("on",remind.on);
+  remindBtn.textContent=remind.on?"TURN OFF":"TURN ON";
+  remindState.textContent=remind.on
+    ? "On. You'll get a nudge at each time while the app is open. Add it to your home screen so it can reach you."
+    : "Off. Reminders only fire while the app is open on this device.";
+}
+
+timesEl.addEventListener("change",e=>{
+  const i=e.target.dataset.t; if(i===undefined)return;
+  remind.times[+i]=e.target.value; remind.times.sort(); saveRemind(); renderTimes();
+});
+timesEl.addEventListener("click",e=>{
+  if(e.target.id==="addTime"){ remind.times.push("18:00"); remind.times.sort(); saveRemind(); renderTimes(); return; }
+  const rm=e.target.closest("[data-rm]");
+  if(rm){ remind.times.splice(+rm.dataset.rm,1); saveRemind(); renderTimes(); }
+});
+
+remindBtn.addEventListener("click",async()=>{
+  if(remind.on){ remind.on=false; saveRemind(); renderTimes(); return; }
+  let ok=false;
+  try{
+    if(!("Notification" in window)) throw 0;
+    ok=Notification.permission==="granted"||await Notification.requestPermission()==="granted";
+  }catch(e){}
+  if(!ok){
+    remindState.textContent="This browser blocked notifications. Use ADD TO PHONE CALENDAR instead — that reminds you even when the app is shut.";
+    return;
+  }
+  remind.on=true; saveRemind(); renderTimes();
+});
+
+let lastFired="";
+setInterval(()=>{
+  if(!remind.on)return;
+  const d=new Date();
+  const hm=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+  const stamp=d.toDateString()+" "+hm;
+  if(remind.times.includes(hm)&&lastFired!==stamp){
+    lastFired=stamp;
+    try{ new Notification("Write it down",{body:"What have you eaten so far? Add it to today's diary.",tag:"level1-log"}); }catch(e){}
+  }
+},20000);
+
+document.getElementById("icsBtn").addEventListener("click",()=>{
+  const pad=n=>String(n).padStart(2,"0");
+  const d=new Date(), y=d.getFullYear(), m=pad(d.getMonth()+1), day=pad(d.getDate());
+  const ev=remind.times.map((t,i)=>{
+    const [hh,mm]=t.split(":");
+    return ["BEGIN:VEVENT",
+      "UID:level1-week1-"+i+"-"+Date.now()+"@level1",
+      "DTSTAMP:"+y+m+day+"T000000Z",
+      "DTSTART:"+y+m+day+"T"+hh+mm+"00",
+      "DURATION:PT5M",
+      "RRULE:FREQ=DAILY",
+      "SUMMARY:Write down what you ate",
+      "DESCRIPTION:Open Level 1 and log your meals and steps.",
+      "BEGIN:VALARM","TRIGGER:PT0M","ACTION:DISPLAY",
+      "DESCRIPTION:Write down what you ate","END:VALARM",
+      "END:VEVENT"].join("\r\n");
+  }).join("\r\n");
+  const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Level 1//Week One//EN",ev,"END:VCALENDAR"].join("\r\n");
+  const url=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
+  const a=document.createElement("a");
+  a.href=url; a.download="level-1-reminders.ics"; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
+});
+
+renderTimes();
 
 let deferred=null;
 const installBtn=document.getElementById("install");
