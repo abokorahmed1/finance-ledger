@@ -1,7 +1,7 @@
 {
-  "name": "Level 1 Week One",
+  "name": "Abokar Ahmed — Coaching",
   "short_name": "Level 1",
-  "description": "Write down what you ate, every day for seven days.",
+  "description": "Your plan, your diary, your food guide.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -5,8 +5,12 @@ create table if not exists diaries (
   name        text not null default '',
   week        int  not null default 1,
   data        jsonb not null default '{}'::jsonb,
+  pin         text,
   updated_at  timestamptz not null default now()
 );
+
+-- if the table already exists from an earlier run:
+alter table diaries add column if not exists pin text;
 
 alter table diaries enable row level security;
 
