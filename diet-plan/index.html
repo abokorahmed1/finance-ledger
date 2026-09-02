@@ -14,6 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&display=swap">
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --ink:#0a0d0f;
@@ -663,6 +665,49 @@ document.getElementById("icsBtn").addEventListener("click",async()=>{
 })();
 
 renderTimes();
+
+/* hosted build: one row per client, live both ways */
+(function(){
+  const cfg=window.LEVEL1_CONFIG||{};
+  if(!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY||!window.supabase)return;
+  const slug=(new URLSearchParams(location.search).get("c")||"demo")
+    .toLowerCase().replace(/[^a-z0-9-]/g,"").slice(0,40)||"demo";
+  const sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+  const el=()=>document.getElementById("sync");
+  const mark=(t,live)=>{const e=el(); if(e){e.textContent=t; e.classList.toggle("live",!!live);}};
+
+  function apply(row){
+    if(!row||!row.data||!Array.isArray(row.data.log))return;
+    applying=true;
+    log=row.data.log.map(x=>({meals:Array.isArray(x.meals)?x.meals:[],steps:x.steps||""}));
+    try{localStorage.setItem(KEY,JSON.stringify(log));}catch(e){}
+    if(row.data.remind&&Array.isArray(row.data.remind.times)){remind=row.data.remind;renderTimes();}
+    const nm=document.getElementById("clientName");
+    if(nm&&row.name&&document.activeElement!==nm) nm.value=row.name;
+    render(); applying=false;
+  }
+
+  cloud={ set:async v=>{
+    const {error}=await sb.from("diaries").upsert({
+      slug,name:v.name||"",week:1,data:{log:v.log,remind:v.remind},
+      updated_at:new Date().toISOString()
+    },{onConflict:"slug"});
+    if(error) mark("Not saved — no connection",false);
+    else mark("Saved "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}),true);
+  }};
+
+  mark("Syncing",true);
+  sb.from("diaries").select("*").eq("slug",slug).maybeSingle().then(({data,error})=>{
+    if(error){ mark("Saved on this device",false); return; }
+    if(data) apply(data); else cloud.set(snapshot());
+    mark("Saved to your coach",true);
+  });
+
+  sb.channel("diary-"+slug)
+    .on("postgres_changes",{event:"*",schema:"public",table:"diaries",filter:"slug=eq."+slug},
+        p=>{ if(!applying) apply(p.new); })
+    .subscribe();
+})();
 
 /* keep the week on the account, not just this browser */
 (async()=>{

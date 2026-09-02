@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coach — Level 1</title>
+<meta name="theme-color" content="#0a0d0f">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&display=swap">
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--ink:#0a0d0f;--paper:#f5f2ea;--paper-2:#e8e3d8;--red:#f23520;--mute:#55524d;
+  --green:#1f7a4d;--blue:#1c5fb8;--gold:#e0a10f;--plum:#8a2f6b;
+  --display:"Anton","Arial Narrow",Impact,sans-serif;--body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --pad:clamp(18px,5vw,56px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);padding-bottom:60px}
+.bar{height:12px;background:var(--ink)}
+header{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:baseline;
+  padding:20px var(--pad) 14px}
+h1{font-family:var(--display);font-weight:400;margin:0;font-size:clamp(34px,7vw,62px);
+  line-height:1;letter-spacing:-.02em}
+h1 .dot{color:var(--red)}
+.count{font-size:13px;font-weight:800;letter-spacing:2px;color:var(--mute)}
+.rule{height:3px;background:var(--ink);margin:0 var(--pad)}
+main{padding:22px var(--pad) 0;display:grid;gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{border:2px solid var(--ink);border-left:10px solid var(--c,var(--red));background:var(--paper);
+  padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.card h2{margin:0;font-size:22px;font-weight:800;display:flex;justify-content:space-between;
+  align-items:baseline;gap:10px}
+.slug{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week i{height:26px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;
+  font-style:normal;font-size:11px;font-weight:800;color:var(--mute)}
+.week i.on{background:var(--green);border-color:var(--green);color:var(--paper)}
+.stat{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;font-weight:800;letter-spacing:1.5px;
+  color:var(--mute);font-variant-numeric:tabular-nums}
+.stat b{color:var(--ink);font-size:15px}
+details summary{cursor:pointer;font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--red)}
+.day{padding:8px 0;border-top:1px solid var(--paper-2)}
+.day-h{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--mute);
+  display:flex;justify-content:space-between;gap:10px}
+.day ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.day li{font-size:14px;font-weight:600}
+.day li span{color:var(--red);font-weight:800;font-size:11px;letter-spacing:1px;padding-right:6px}
+.empty{padding:40px var(--pad);font-size:17px;color:var(--mute);max-width:60ch;line-height:1.5}
+.empty code{background:var(--paper-2);padding:2px 6px;font-size:14px}
+.stale{color:var(--red)}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <h1>CLIENTS<span class="dot">.</span></h1>
+  <div class="count" id="count">Loading</div>
+</header>
+<div class="rule"></div>
+<main id="grid"></main>
+<div class="empty" id="empty" hidden></div>
+
+<script>
+const COLORS=["var(--red)","var(--green)","var(--blue)","var(--gold)","var(--plum)"];
+const grid=document.getElementById("grid");
+const countEl=document.getElementById("count");
+const emptyEl=document.getElementById("empty");
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf=new Intl.NumberFormat("en-GB");
+
+function since(ts){
+  const m=Math.floor((Date.now()-new Date(ts))/60000);
+  if(m<1)return "just now";
+  if(m<60)return m+" min ago";
+  const h=Math.floor(m/60); if(h<24)return h+"h ago";
+  return Math.floor(h/24)+"d ago";
+}
+
+function card(row,i){
+  const log=(row.data&&Array.isArray(row.data.log))?row.data.log:[];
+  const logged=log.filter(d=>d.meals&&d.meals.length).length;
+  const steps=log.map(d=>parseInt(d.steps,10)).filter(n=>!isNaN(n));
+  const best=steps.length?Math.max(...steps):null;
+  const stale=(Date.now()-new Date(row.updated_at))>36*3600*1000;
+  const days=log.map((d,j)=>{
+    if(!d.meals||!d.meals.length)return "";
+    return '<div class="day"><div class="day-h"><span>DAY '+(j+1)+'</span>'+
+      '<span>'+(d.steps?nf.format(d.steps)+" steps":"no steps")+'</span></div>'+
+      '<ul>'+d.meals.map(m=>'<li>'+(m.at?'<span>'+esc(m.at)+'</span>':'')+esc(m.text)+'</li>').join("")+'</ul></div>';
+  }).join("");
+  return '<div class="card" style="--c:'+COLORS[i%COLORS.length]+'">'+
+    '<h2>'+esc(row.name||row.slug)+'<span class="slug">'+esc(row.slug)+'</span></h2>'+
+    '<div class="week">'+log.map((d,j)=>
+      '<i class="'+(d.meals&&d.meals.length?"on":"")+'">'+(j+1)+'</i>').join("")+'</div>'+
+    '<div class="stat"><span>LOGGED <b>'+logged+'/7</b></span>'+
+      (best!==null?'<span>BEST STEPS <b>'+nf.format(best)+'</b></span>':"")+
+      '<span class="'+(stale?"stale":"")+'">'+since(row.updated_at)+'</span></div>'+
+    (days?'<details><summary>SEE THE DIARY</summary>'+days+'</details>':"")+
+  '</div>';
+}
+
+function paint(rows){
+  rows.sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
+  grid.innerHTML=rows.map(card).join("");
+  countEl.textContent=rows.length+(rows.length===1?" CLIENT":" CLIENTS");
+}
+
+const cfg=window.LEVEL1_CONFIG||{};
+if(!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY||!window.supabase){
+  countEl.textContent="NOT CONNECTED";
+  emptyEl.hidden=false;
+  emptyEl.innerHTML="Fill in <code>config.js</code> with your Supabase URL and anon key, "+
+    "run <code>supabase-setup.sql</code> in the SQL editor, and this page fills itself. "+
+    "Each client gets a link ending <code>?c=their-name</code>.";
+}else{
+  const sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+  const load=()=>sb.from("diaries").select("*").then(({data,error})=>{
+    if(error){ countEl.textContent="ERROR"; return; }
+    if(!data||!data.length){
+      countEl.textContent="NO CLIENTS YET";
+      emptyEl.hidden=false;
+      emptyEl.innerHTML="No diaries yet. Send a client their link — "+
+        "<code>"+location.href.replace(/coach\.html.*$/,"")+"?c=their-name</code> — "+
+        "and their week appears here as they fill it in.";
+      return;
+    }
+    emptyEl.hidden=true; paint(data);
+  });
+  load();
+  sb.channel("diaries-all")
+    .on("postgres_changes",{event:"*",schema:"public",table:"diaries"},load)
+    .subscribe();
+  setInterval(load,60000);
+}
+</script>
+</body>
+</html>
