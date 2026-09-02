@@ -110,6 +110,8 @@ section{padding:clamp(30px,5vw,52px) var(--pad) 0}
 .week-head h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.5px;margin:10px 0 0}
 .score{display:flex;align-items:center;gap:14px}
 .count{font-size:17px;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.sync{font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--mute)}
+.sync.live{color:var(--green)}
 button{font:inherit;cursor:pointer}
 .btn{background:var(--red);color:var(--paper);border:0;font-size:13px;font-weight:800;
   letter-spacing:2px;padding:11px 16px}
@@ -332,6 +334,7 @@ footer b{font-size:17px;font-weight:800;letter-spacing:2px}
       </div>
       <div class="score">
         <div class="count"><span id="done">0</span> / 7 DAYS LOGGED</div>
+        <span class="sync" id="sync">Saved on this device</span>
         <button class="btn btn--ghost" id="export" type="button">COPY WEEK</button>
         <button class="btn" id="reset" type="button">START AGAIN</button>
       </div>
@@ -446,7 +449,23 @@ try{
 
 const daysEl=document.getElementById("days");
 const doneEl=document.getElementById("done");
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(log));}catch(e){}};
+let cloud=null, pushTimer=null, applying=false;
+const syncEl=()=>document.getElementById("sync");
+
+function snapshot(){
+  return {log,name:(document.getElementById("clientName")||{}).value||"",
+    remind:(typeof remind!=="undefined"?remind:null), updatedAt:Date.now()};
+}
+function pushCloud(){
+  if(!cloud||applying)return;
+  clearTimeout(pushTimer);
+  pushTimer=setTimeout(()=>{
+    cloud.set(snapshot()).then(()=>{
+      const el=syncEl(); if(el){el.textContent="Saved "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+    }).catch(()=>{});
+  },700);
+}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(log));}catch(e){} pushCloud();};
 const nf=new Intl.NumberFormat("en-GB");
 const esc=t=>t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const stepsOf=i=>{const n=parseInt(log[i].steps,10);return isNaN(n)?null:n;};
@@ -536,7 +555,7 @@ function updateVault(){
 
 const nameEl=document.getElementById("clientName");
 try{const nm=localStorage.getItem(KEY+"-name"); if(nm) nameEl.value=nm;}catch(e){}
-nameEl.addEventListener("input",()=>{try{localStorage.setItem(KEY+"-name",nameEl.value);}catch(e){}});
+nameEl.addEventListener("input",()=>{try{localStorage.setItem(KEY+"-name",nameEl.value);}catch(e){} pushCloud();});
 
 document.getElementById("reset").addEventListener("click",()=>{
   if(confirm("Clear the whole week and start again?")){log=blank();save();render();}
@@ -576,7 +595,7 @@ function showText(text){
 const RKEY=KEY+"-remind";
 let remind={times:["09:00","14:00","21:00"]};
 try{const r=localStorage.getItem(RKEY); if(r) remind={...remind,...JSON.parse(r)};}catch(e){}
-const saveRemind=()=>{try{localStorage.setItem(RKEY,JSON.stringify(remind));}catch(e){}};
+const saveRemind=()=>{try{localStorage.setItem(RKEY,JSON.stringify(remind));}catch(e){} pushCloud();};
 
 const timesEl=document.getElementById("times");
 const remindState=document.getElementById("remindState");
@@ -639,6 +658,31 @@ document.getElementById("icsBtn").addEventListener("click",async()=>{
 })();
 
 renderTimes();
+
+/* keep the week on the account, not just this browser */
+(async()=>{
+  let db=null;
+  try{ db=window.claude? await claude.use("db") : null; }catch(e){}
+  if(!db)return;
+  cloud=db.doc("diary/week1");
+  const el=syncEl(); if(el){ el.textContent="Syncing"; el.classList.add("live"); }
+  cloud.onSnapshot(snap=>{
+    const d=snap.exists?snap.data():null;
+    if(d&&Array.isArray(d.log)){
+      applying=true;
+      log=d.log.map(x=>({meals:Array.isArray(x.meals)?x.meals:[],steps:x.steps||""}));
+      try{localStorage.setItem(KEY,JSON.stringify(log));}catch(e){}
+      if(d.remind&&Array.isArray(d.remind.times)){ remind=d.remind; saveRemind(); renderTimes(); }
+      const nm=document.getElementById("clientName");
+      if(nm&&d.name&&document.activeElement!==nm) nm.value=d.name;
+      render();
+      applying=false;
+    }else{
+      cloud.set(snapshot()).catch(()=>{});
+    }
+    const e2=syncEl(); if(e2){ e2.textContent="Saved to your account"; e2.classList.add("live"); }
+  },()=>{ const e3=syncEl(); if(e3){ e3.textContent="Saved on this device"; e3.classList.remove("live"); } });
+})();
 
 let deferred=null;
 const installBtn=document.getElementById("install");
